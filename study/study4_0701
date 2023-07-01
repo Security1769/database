@@ -1,0 +1,40 @@
+CREATE TABLE study (
+    tinyint_col  TINYINT,
+    smallint_col SMALLINT,
+    int_col    INT,
+    bigint_col BIGINT );
+
+    INSERT INTO study VALUES(127, 32767, 2147483647, 9000000000000000000);
+
+mysql> SELECT * FROM study;
++-------------+--------------+------------+---------------------+
+| tinyint_col | smallint_col | int_col    | bigint_col          |
++-------------+--------------+------------+---------------------+
+|         127 |        32767 | 2147483647 | 9000000000000000000 |
++-------------+--------------+------------+---------------------+
+
+CREATE TABLE movie 
+  (movie_id        INT,
+   movie_title     VARCHAR(30),
+   movie_director  VARCHAR(20),
+   movie_star      VARCHAR(20),
+   movie_script    LONGTEXT,
+   movie_film      LONGBLOB
+); 
+
+
+USE market_db;
+SET @myVar1 = 5 ;
+SET @myVar2 = 4.25 ;
+
+SELECT @myVar1 ;
+SELECT @myVar1 + @myVar2 ;
+
+SET @txt = "City's name";
+SELECT @txt, name FROM city;
+
+| Singer's name: | Hebron                             |
+| Singer's name: | Jabaliya                           |
+| Singer's name: | Nablus                             |
+| Singer's name: | Rafah                              |
++----------------+------------------------------------+
