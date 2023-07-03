@@ -1,0 +1,86 @@
+DROP PROCEDURE IF EXISTS ifProc1; -- 기존에 만든적이 있다면 삭제
+DELIMITER $$
+CREATE PROCEDURE ifProc1()
+BEGIN
+   IF 100 = 100 THEN  
+      SELECT '100은 100과 같습니다.';
+   END IF;
+END $$
+DELIMITER ;
+CALL ifProc1();
+
+mysql> CALL ifProc1();
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+1 row in set (0.00 sec)
+
+
+DROP PROCEDURE IF EXISTS ifProc2; 
+DELIMITER $$
+CREATE PROCEDURE ifProc2()
+BEGIN
+   DECLARE myNum INT;  -- myNum 변수선언
+   SET myNum = 200;  -- 변수에 값 대입
+   IF myNum = 100 THEN  
+      SELECT '100입니다.';
+   ELSE
+      SELECT '100이 아닙니다.';
+   END IF;
+END $$
+DELIMITER ;
+CALL ifProc2();
+
+mysql> CALL ifProc2();
++----------------------+
+| 100이 아닙니다.      |
++----------------------+
+| 100이 아닙니다.      |
++----------------------+
+1 row in set (0.00 sec)
+
+
+
+DROP PROCEDURE IF EXISTS ifProc3; 
+DELIMITER $$
+CREATE PROCEDURE ifProc3()
+BEGIN
+    DECLARE debutDate DATE; -- 데뷰일
+    DECLARE curDate DATE; -- 오늘
+    DECLARE days INT; -- 활동한 일수
+
+    SELECT debut_date INTO debutDate -- debut_date 결과를 hireDATE에 대입
+       FROM market_db.member
+       WHERE mem_id = 'APN';
+
+    SET curDATE = CURRENT_DATE(); -- 현재 날짜
+    SET days =  DATEDIFF(curDATE, debutDate); -- 날짜의 차이, 일 단위
+
+    IF (days/365) >= 5 THEN -- 5년이 지났다면
+          SELECT CONCAT('데뷔한지 ', days, '일이나 지났습니다. 핑순이들 축하합니다!');
+    ELSE
+          SELECT '데뷔한지 ' + days + '일밖에 안되었네요. 핑순이들 화이팅~' ;
+    END IF;
+END $$
+DELIMITER ;
+CALL ifProc3();
+
+mysql> CALL ifProc3();
++-------------------------------------------------------------------------------------------+
+| CONCAT('데뷔한지 ', days, '일이나 지났습니다. 핑순이들 축하합니다!')                      |
++-------------------------------------------------------------------------------------------+
+| 데뷔한지 4526일이나 지났습니다. 핑순이들 축하합니다!                                      |
++-------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+SELECT CURRENT_DATE(), DATEDIFF('2021-12-31', '2000-1-1');
+
+mysql> SELECT CURRENT_DATE(), DATEDIFF('2021-12-31', '2000-1-1');
++----------------+------------------------------------+
+| CURRENT_DATE() | DATEDIFF('2021-12-31', '2000-1-1') |
++----------------+------------------------------------+
+| 2023-07-03     |                               8035 |
++----------------+------------------------------------+
+1 row in set (0.00 sec)
