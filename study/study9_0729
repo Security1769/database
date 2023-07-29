@@ -1,0 +1,786 @@
+Database changed
+mysql> 
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| GRL    | 소녀시대     | 2007-08-02 |
+| APN    | 에이핑크     | 2011-02-10 |
+| MMU    | 마마무       | 2014-06-19 |
+| RED    | 레드벨벳     | 2014-08-01 |
+| WMN    | 여자친구     | 2015-01-15 |
+| OMY    | 오마이걸     | 2015-04-21 |
+| TWC    | 트와이스     | 2015-10-19 |
+| SPC    | 우주소녀     | 2016-02-25 |
+| BLK    | 블랙핑크     | 2016-08-08 |
+| ITZ    | 잇지         | 2019-02-12 |
++--------+--------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date; -- ORDER BY 는 순서대로 출력;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| GRL    | 소녀시대     | 2007-08-02 |
+| APN    | 에이핑크     | 2011-02-10 |
+| MMU    | 마마무       | 2014-06-19 |
+| RED    | 레드벨벳     | 2014-08-01 |
+| WMN    | 여자친구     | 2015-01-15 |
+| OMY    | 오마이걸     | 2015-04-21 |
+| TWC    | 트와이스     | 2015-10-19 |
+| SPC    | 우주소녀     | 2016-02-25 |
+| BLK    | 블랙핑크     | 2016-08-08 |
+| ITZ    | 잇지         | 2019-02-12 |
++--------+--------------+------------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date ASC;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| GRL    | 소녀시대     | 2007-08-02 |
+| APN    | 에이핑크     | 2011-02-10 |
+| MMU    | 마마무       | 2014-06-19 |
+| RED    | 레드벨벳     | 2014-08-01 |
+| WMN    | 여자친구     | 2015-01-15 |
+| OMY    | 오마이걸     | 2015-04-21 |
+| TWC    | 트와이스     | 2015-10-19 |
+| SPC    | 우주소녀     | 2016-02-25 |
+| BLK    | 블랙핑크     | 2016-08-08 |
+| ITZ    | 잇지         | 2019-02-12 |
++--------+--------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date DESC;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| ITZ    | 잇지         | 2019-02-12 |
+| BLK    | 블랙핑크     | 2016-08-08 |
+| SPC    | 우주소녀     | 2016-02-25 |
+| TWC    | 트와이스     | 2015-10-19 |
+| OMY    | 오마이걸     | 2015-04-21 |
+| WMN    | 여자친구     | 2015-01-15 |
+| RED    | 레드벨벳     | 2014-08-01 |
+| MMU    | 마마무       | 2014-06-19 |
+| APN    | 에이핑크     | 2011-02-10 |
+| GRL    | 소녀시대     | 2007-08-02 |
++--------+--------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY height DESC WHERE height >= 164;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE height >= 164' at line 1
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY height DESC WHERE height >= 164;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE height >= 164' at line 1
+mysql> SELECT mem_id, mem_name, debut_date FROM member WHERE height >= 164 ORDER BY height DESC;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| GRL    | 소녀시대     | 2007-08-02 |
+| ITZ    | 잇지         | 2019-02-12 |
+| TWC    | 트와이스     | 2015-10-19 |
+| WMN    | 여자친구     | 2015-01-15 |
+| MMU    | 마마무       | 2014-06-19 |
+| APN    | 에이핑크     | 2011-02-10 |
++--------+--------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date, height  FROM member WHERE height >= 164 ORDER BY height DESC;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | debut_date | height |
++--------+--------------+------------+--------+
+| GRL    | 소녀시대     | 2007-08-02 |    168 |
+| ITZ    | 잇지         | 2019-02-12 |    167 |
+| TWC    | 트와이스     | 2015-10-19 |    167 |
+| WMN    | 여자친구     | 2015-01-15 |    166 |
+| MMU    | 마마무       | 2014-06-19 |    165 |
+| APN    | 에이핑크     | 2011-02-10 |    164 |
++--------+--------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date, height  FROM member WHERE height >= 164 ORDER BY height asc;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | debut_date | height |
++--------+--------------+------------+--------+
+| APN    | 에이핑크     | 2011-02-10 |    164 |
+| MMU    | 마마무       | 2014-06-19 |    165 |
+| WMN    | 여자친구     | 2015-01-15 |    166 |
+| ITZ    | 잇지         | 2019-02-12 |    167 |
+| TWC    | 트와이스     | 2015-10-19 |    167 |
+| GRL    | 소녀시대     | 2007-08-02 |    168 |
++--------+--------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date, height  FROM member WHERE height >= 164 ORDER BY height DESC, debut_date ASC;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | debut_date | height |
++--------+--------------+------------+--------+
+| GRL    | 소녀시대     | 2007-08-02 |    168 |
+| TWC    | 트와이스     | 2015-10-19 |    167 |
+| ITZ    | 잇지         | 2019-02-12 |    167 |
+| WMN    | 여자친구     | 2015-01-15 |    166 |
+| MMU    | 마마무       | 2014-06-19 |    165 |
+| APN    | 에이핑크     | 2011-02-10 |    164 |
++--------+--------------+------------+--------+
+6 rows in set (0.01 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date, height  FROM member WHERE height >= 164 ORDER BY height DESC, debut_date DESC;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | debut_date | height |
++--------+--------------+------------+--------+
+| GRL    | 소녀시대     | 2007-08-02 |    168 |
+| ITZ    | 잇지         | 2019-02-12 |    167 |
+| TWC    | 트와이스     | 2015-10-19 |    167 |
+| WMN    | 여자친구     | 2015-01-15 |    166 |
+| MMU    | 마마무       | 2014-06-19 |    165 |
+| APN    | 에이핑크     | 2011-02-10 |    164 |
++--------+--------------+------------+--------+
+6 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM member LIMIT 3;
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+| BLK    | 블랙핑크     |          4 | 경남   | 055    | 22222222 |    163 | 2016-08-08 |
+| GRL    | 소녀시대     |          8 | 서울   | 02     | 44444444 |    168 | 2007-08-02 |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT mem_name, debut_date FROM member ORDER BY debut_date LIMIT 3;
++--------------+------------+
+| mem_name     | debut_date |
++--------------+------------+
+| 소녀시대     | 2007-08-02 |
+| 에이핑크     | 2011-02-10 |
+| 마마무       | 2014-06-19 |
++--------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT mem_name, debut_date FROM member ORDER BY debut_date LIMIT 3, 2;;
++--------------+------------+
+| mem_name     | debut_date |
++--------------+------------+
+| 레드벨벳     | 2014-08-01 |
+| 여자친구     | 2015-01-15 |
++--------------+------------+
+2 rows in set (0.01 sec)
+
+ERROR: 
+No query specified
+
+mysql> 
+mysql> SELECT addr FROM member;
++--------+
+| addr   |
++--------+
+| 경기   |
+| 경남   |
+| 서울   |
+| 경남   |
+| 전남   |
+| 서울   |
+| 경북   |
+| 서울   |
+| 서울   |
+| 경기   |
++--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT addr FROM member ORDER by addr;
++--------+
+| addr   |
++--------+
+| 경기   |
+| 경기   |
+| 경남   |
+| 경남   |
+| 경북   |
+| 서울   |
+| 서울   |
+| 서울   |
+| 서울   |
+| 전남   |
++--------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT DISTINCT addr FROM member;
++--------+
+| addr   |
++--------+
+| 경기   |
+| 경남   |
+| 서울   |
+| 전남   |
+| 경북   |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, SUM(amount) FROM buy GROUP BY mem_id;
++--------+-------------+
+| mem_id | SUM(amount) |
++--------+-------------+
+| APN    |           5 |
+| BLK    |           6 |
+| GRL    |           5 |
+| MMU    |          20 |
++--------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT mem_id FROM buy GROUP by mem_id;
++--------+
+| mem_id |
++--------+
+| APN    |
+| BLK    |
+| GRL    |
+| MMU    |
++--------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT SUM(price) FROM buy GROUP by mem_id;
++------------+
+| SUM(price) |
++------------+
+|        280 |
+|       1080 |
+|         15 |
+|        340 |
++------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT SUM(price) FROM buy GROUP by price;
++------------+
+| SUM(price) |
++------------+
+|         90 |
+|       1000 |
+|        400 |
+|        100 |
+|         80 |
+|         45 |
++------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT SUM(price) FROM buy GROUP by amount
+    -> ;
++------------+
+| SUM(price) |
++------------+
+|         45 |
+|       1295 |
+|        215 |
+|         50 |
+|         80 |
+|         30 |
++------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT mem_id "회원 아이디", SUM(price*amount)"총 구매금액" FROM buy GROUP BY mem_id;
++------------------+------------------+
+| 회원 아이디      | 총 구매금액      |
++------------------+------------------+
+| APN              |              295 |
+| BLK              |             1210 |
+| GRL              |               75 |
+| MMU              |             1950 |
++------------------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM AVG(amount)"평균 구매 개수"FROM buy;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(amount)"평균 구매 개수"FROM buy' at line 1
+mysql> SELECT * FROM AVG(amount)"평균 구매 개수" FROM buy;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(amount)"평균 구매 개수" FROM buy' at line 1
+mysql> SELECT AVG(amount)"평균 구매 개수" FROM buy;
++----------------------+
+| 평균 구매 개수       |
++----------------------+
+|               3.0000 |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT mem_id, AVG(amount) "평균 구매 개수" FROM buy GROUP BY mem_id;
++--------+----------------------+
+| mem_id | 평균 구매 개수       |
++--------+----------------------+
+| APN    |               1.2500 |
+| BLK    |               2.0000 |
+| GRL    |               5.0000 |
+| MMU    |               5.0000 |
++--------+----------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM member;
++----------+
+| COUNT(*) |
++----------+
+|       10 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> SELECT COUNT(phone1) "연락처가 있는 회원" FROM member;
++----------------------------+
+| 연락처가 있는 회원         |
++----------------------------+
+|                          8 |
++----------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT mem_id "회원 아이디", SUM(price*amount)"총 구매금액" FROM buy GROUP BY mem_id; 
++------------------+------------------+
+| 회원 아이디      | 총 구매금액      |
++------------------+------------------+
+| APN              |              295 |
+| BLK              |             1210 |
+| GRL              |               75 |
+| MMU              |             1950 |
++------------------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM mem_id "회원아이디", SUM(price*amount)"총 구매금액" FROM buy WHERE SUM(price*amount)>1000 
+    -> group by mem_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '"회원아이디", SUM(price*amount)"총 구매금액" FROM buy WHERE SUM(price*' at line 1
+mysql> SELECT mem_id "회원아이디", SUM(price*amount)"총 구매금액" FROM buy WHERE SUM(price*amount)>1000 group by mem_id;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> SELECT mem_id "회원아이디", SUM(price*amount)"총 구매금액" FROM buy WHERE SUM(price*amount)>1000; group by mem_id;
+ERROR 1111 (HY000): Invalid use of group function
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by mem_id' at line 1
+mysql> SELECT mem_id "회원아이디", SUM(price*amount) "총 구매금액" FROM buy WHERE SUM(price*amount)>1000; group by mem_id;
+ERROR 1111 (HY000): Invalid use of group function
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by mem_id' at line 1
+mysql> SELECT mem_id "회원아이디", SUM(price*amount) "총 구매금액" FROM buy WHERE SUM(price*amount)>1000; group by mem_id;
+ERROR 1111 (HY000): Invalid use of group function
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'group by mem_id' at line 1
+mysql> SELECT mem_id AS "회원아이디", SUM(price * amount) AS "총 구매금액"
+    -> FROM buy
+    -> GROUP BY mem_id
+    -> HAVING SUM(price * amount) > 1000;
++-----------------+------------------+
+| 회원아이디      | 총 구매금액      |
++-----------------+------------------+
+| BLK             |             1210 |
+| MMU             |             1950 |
++-----------------+------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT mem_id "회원아이디", SUM(price*amount)"total"
+    -> from buy
+    -> group by mem_id
+    -> Having sum(price*amount) > 1000
+    -> ORDER BY SUM(price*amount) DESC;
++-----------------+-------+
+| 회원아이디      | total |
++-----------------+-------+
+| MMU             |  1950 |
+| BLK             |  1210 |
++-----------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT mem_id "회원아이디", SUM(price*amount)"total" from buy group by mem_id Having sum(price*amount) > 1000 ORDER BY SUM(price*amount);
++-----------------+-------+
+| 회원아이디      | total |
++-----------------+-------+
+| BLK             |  1210 |
+| MMU             |  1950 |
++-----------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> CREATE TABLE hongong1
+    -> (toy_id INT,
+    -> toy_name CHAR(4),
+    -> age INT);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO hongong1 VALUES (1, '우디', 25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hongong1
+    -> (toy_id, toy_name)
+    -> values(2, '버즈');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hongong1
+    -> (toy_name, age, toy_id)
+    -> VALUES('제시', 20, 3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong1;
++--------+----------+------+
+| toy_id | toy_name | age  |
++--------+----------+------+
+|      1 | 우디     |   25 |
+|      2 | 버즈     | NULL |
+|      3 | 제시     |   20 |
++--------+----------+------+
+3 rows in set (0.01 sec)
+
+mysql> CREATE TABLE hongong2
+    -> (toy_id INT AUTO_INCREMENT PRIMARY KEY,
+    -> toy_name CHAR(4),
+    -> agE INT);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO hongong2
+    -> VALUES(NULL, '보핍', 25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hongong2 VALUES(NULL, '슬링키', 22);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO hongong2 VALUES(NULL, '렉스', 21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong2
+    -> ;
++--------+-----------+------+
+| toy_id | toy_name  | agE  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
++--------+-----------+------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO hongong2
+    -> (toy_name, age)
+    -> VALUES('다다', 27);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong2
+    -> ;
++--------+-----------+------+
+| toy_id | toy_name  | agE  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
+|      4 | 다다      |   27 |
++--------+-----------+------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT LAST_INSERT_ID();
++------------------+
+| LAST_INSERT_ID() |
++------------------+
+|                4 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> ALTER TABLE hongong2 AUTO_INCREMENT = 100;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO hongong2 VALUES (NUll, '제남', 28);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT LAST_INSERT_ID();
++------------------+
+| LAST_INSERT_ID() |
++------------------+
+|              100 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT LAST_INSERT_ID();
++------------------+
+| LAST_INSERT_ID() |
++------------------+
+|              100 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM hongong2
+    -> ;
++--------+-----------+------+
+| toy_id | toy_name  | agE  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
+|      4 | 다다      |   27 |
+|    100 | 제남      |   28 |
++--------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> SET @@auto_increment_increment = 3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO hongong2 VALUES (NUll, '제노', 22);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong2
+    -> ;
++--------+-----------+------+
+| toy_id | toy_name  | agE  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
+|      4 | 다다      |   27 |
+|    100 | 제남      |   28 |
+|    103 | 제노      |   22 |
++--------+-----------+------+
+6 rows in set (0.00 sec)
+
+mysql> SET @@auto_increment_increment=3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @@auto_increment_increment=1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO hongong2
+    -> VALUES
+    -> (null, '나나',32),(null,"노노",23);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM hongong2
+    -> ;
++--------+-----------+------+
+| toy_id | toy_name  | agE  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
+|      4 | 다다      |   27 |
+|    100 | 제남      |   28 |
+|    103 | 제노      |   22 |
+|    106 | 나나      |   32 |
+|    107 | 노노      |   23 |
++--------+-----------+------+
+8 rows in set (0.00 sec)
+
+mysql> SET @@auto_increment_increment=1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO hongong2 VALUES (null, '키키',28);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM hongong2;
++--------+-----------+------+
+| toy_id | toy_name  | agE  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
+|      4 | 다다      |   27 |
+|    100 | 제남      |   28 |
+|    103 | 제노      |   22 |
+|    106 | 나나      |   32 |
+|    107 | 노노      |   23 |
+|    108 | 키키      |   28 |
++--------+-----------+------+
+9 rows in set (0.01 sec)
+
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| country         |
+| countrylanguage |
++-----------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM world.city;
++----------+
+| COUNT(*) |
++----------+
+|     4079 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> DESC world.city;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| ID          | int      | NO   | PRI | NULL    | auto_increment |
+| Name        | char(35) | NO   |     |         |                |
+| CountryCode | char(3)  | NO   | MUL |         |                |
+| District    | char(20) | NO   |     |         |                |
+| Population  | int      | NO   |     | 0       |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM world.city LIMIT 5;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
++----+----------------+-------------+---------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM world.city ORDER BY LIMIT 5;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'LIMIT 5' at line 1
+mysql> SELECT * FROM world.city ORDER BY name LIMIT 5;
++------+-------------------------------+-------------+---------------------+------------+
+| ID   | Name                          | CountryCode | District            | Population |
++------+-------------------------------+-------------+---------------------+------------+
+|  698 | [San Cristóbal de] la Laguna  | ESP         | Canary Islands      |     127945 |
+|   20 | ´s-Hertogenbosch              | NLD         | Noord-Brabant       |     129170 |
+|  670 | A Coruña (La Coruña)          | ESP         | Galicia             |     243402 |
+| 3097 | Aachen                        | DEU         | Nordrhein-Westfalen |     243825 |
+| 3318 | Aalborg                       | DNK         | Nordjylland         |     161161 |
++------+-------------------------------+-------------+---------------------+------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT * FROM world.city ORDER BY ID DESC  LIMIT 5;
++------+------------+-------------+------------+------------+
+| ID   | Name       | CountryCode | District   | Population |
++------+------------+-------------+------------+------------+
+| 4079 | Rafah      | PSE         | Rafah      |      92020 |
+| 4078 | Nablus     | PSE         | Nablus     |     100231 |
+| 4077 | Jabaliya   | PSE         | North Gaza |     113901 |
+| 4076 | Hebron     | PSE         | Hebron     |     119401 |
+| 4075 | Khan Yunis | PSE         | Khan Yunis |     123175 |
++------+------------+-------------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE city_popul
+    -> (city_name CHAR(35), 
+    -> population INT);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO city_popul
+    -> SELECT name, Population FROM world.city;
+Query OK, 4079 rows affected (0.03 sec)
+Records: 4079  Duplicates: 0  Warnings: 0
+
+mysql> use market_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> 
+
+mysql> CREATE TABLE city_popul
+    -> (city_name CHAR(35), 
+    -> population INT);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO city_popul
+    -> SELECT name, Population FROM world.city;
+Query OK, 4079 rows affected (0.03 sec)
+Records: 4079  Duplicates: 0  Warnings: 0
+
+mysql> use market_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> 
+mysql> 
+mysql> show talbes;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'talbes' at line 1
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| hongong1            |
+| hongong2            |
+| member              |
++---------------------+
+4 rows in set (0.01 sec)
+
+mysql> UPDATE city_popul
+    -> SET city_name = "서울"
+    -> where city_name = "seoul";
+ERROR 1146 (42S02): Table 'market_db.city_popul' doesn't exist
+mysql> use world;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| city_popul      |
+| country         |
+| countrylanguage |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> use market_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> UPDATE world.city_popul SET world.city_name = "서울" where world.city_name = "seoul";
+ERROR 1054 (42S22): Unknown column 'world.city_name' in 'where clause'
+mysql> use world;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> UPDATE city_popul SET city_name = "서울" where city_name = "seoul";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM city_popul where city_name ="서울";
++-----------+------------+
+| city_name | population |
++-----------+------------+
+| 서울      |    9981619 |
++-----------+------------+
+1 row in set (0.01 sec)
+
+mysql> UPDATE city_popul
+    -> SET population = population / 10000;
+Query OK, 4079 rows affected (0.03 sec)
+Rows matched: 4079  Changed: 4079  Warnings: 0
+
+mysql> SELECT * FROM city_popul LIMIT 5;
++----------------+------------+
+| city_name      | population |
++----------------+------------+
+| Kabul          |        178 |
+| Qandahar       |         24 |
+| Herat          |         19 |
+| Mazar-e-Sharif |         13 |
+| Amsterdam      |         73 |
++----------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> DELECT FROM city_popul
+    -> where city_name LIKE = 'new%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELECT FROM city_popul
+where city_name LIKE = 'new%'' at line 1
+mysql> DELECT FROM city_popul where city_name LIKE 'new%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELECT FROM city_popul where city_name LIKE 'new%'' at line 1
+mysql> DELECT FROM city_popul where city_name LIKE 'NEWw%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DELECT FROM city_popul where city_name LIKE 'NEWw%'' at line 1
+mysql> 
+mysql> 
+mysql> DELETE FROM city_popul WHERE city_name LIKE 'new%';
+Query OK, 12 rows affected (0.01 sec)
+
+
+
+ORDER BY 는 ASC 오름차순 DESC 는 내림차순
+SELECT -> WHERE -> ORDER BY
+LMITI 2, 3; 2번째에서 3개
+DISTINCT 중복삭제 
+GROUP BY 총
+GROUP BY는 HAVING 이랑 같이 써야한다
+
+GHO
+
+INSERT INTO name VALUES()
+SELECT LAST_INSERT_ID();
+
+
