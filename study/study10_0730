@@ -1,0 +1,1339 @@
+text 형식
+1. Text
+2. Longtext
+
+BLOB 형식
+1. blob
+2. Longblob
+
+4GB
+
+cast
+convert 같은 형변환
+concat  합치는 함
+
+SELECT ROUTINE_DEFINITION
+FROM INFORMATION_SCHEMA.ROUTINES
+WHERE ROUTINE_NAME = 'ifProc1' AND ROUTINE_TYPE = 'PROCEDURE';
+
+
+Database changed
+mysql> 
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| hongong1            |
+| hongong2            |
+| member              |
++---------------------+
+4 rows in set (0.01 sec)
+
+mysql> CREATE TABLE hongong4
+    -> (tinyint_col TINYINT, 
+    -> smallint_col SMALLINT,
+    -> int_col INT,
+    -> bigint_col BIGINT );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO hongong4 VALUES 
+    -> (127, 32767,;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 2
+mysql> INSERT INTO hongong4 VALUES(127, 32767, 2147483647, 9000000000000000000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO hongong4 VALUES(128, 32768, 2147483648, 90000000000000000000);
+ERROR 1264 (22003): Out of range value for column 'tinyint_col' at row 1
+mysql> DROP TABLE IF EXISTS buy, member;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE member
+    -> (mem_id CHAR(8) NOT NULL PRIMARY key,
+    -> mem_name VARCHAR(10) NOT NULL,
+    -> mem_number INT NOT NULL,
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 4
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id      CHAR(8) NOT NULL PRIMARY KEY, -- 회원 아이디(PK)
+    ->   mem_name        VARCHAR(10) NOT NULL, -- 이름
+    ->   mem_number    INT NOT NULL,  -- 인원수
+    ->   addr          CHAR(2) NOT NULL, -- 주소(경기,서울,경남 식으로 2글자만입력)
+    ->   phone1        CHAR(3), -- 연락처의 국번(02, 031, 055 등)
+    ->   phone2        CHAR(8), -- 연락처의 나머지 전화번호(하이픈제외)
+    ->   height        SMALLINT,  -- 평균 키
+    ->   debut_date    DATE  -- 데뷔 일자
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id      CHAR(8) NOT NULL PRIMARY KEY, -- 회원 아이디(PK)
+    ->   mem_name        VARCHAR(10) NOT NULL, -- 이름
+    ->   mem_number    INT NOT NULL,  -- 인원수
+    ->   addr          CHAR(2) NOT NULL, -- 주소(경기,서울,경남 식으로 2글자만입력)
+    ->   phone1        CHAR(3), -- 연락처의 국번(02, 031, 055 등)
+    ->   phone2        CHAR(8), -- 연락처의 나머지 전화번호(하이픈제외)
+    ->   height        SMALLINT,  -- 평균 키
+    ->   debut_date    DATE  -- 데뷔 일자
+    -> );
+ERROR 1050 (42S01): Table 'member' already exists
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id      CHAR(8) NOT NULL PRIMARY KEY, -- 회원 아이디(PK)
+    ->   mem_name        VARCHAR(10) NOT NULL, -- 이름
+    ->   mem_number    INT NOT NULL,  -- 인원수
+    ->   addr          CHAR(2) NOT NULL, -- 주소(경기,서울,경남 식으로 2글자만입력)
+    ->   phone1        CHAR(3), -- 연락처의 국번(02, 031, 055 등)
+    ->   phone2        CHAR(8), -- 연락처의 나머지 전화번호(하이픈제외)
+    ->   height        SMALLINT,  -- 평균 키
+    ->   debut_date    DATE  -- 데뷔 일자
+    -> );
+ERROR 1050 (42S01): Table 'member' already exists
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id      CHAR(8) NOT NULL PRIMARY KEY, -- 회원 아이디(PK)
+    ->   mem_name        VARCHAR(10) NOT NULL, -- 이름
+    ->   mem_number    TINYINT  NOT NULL,  -- 인원수
+    ->   addr          CHAR(2) NOT NULL, -- 주소(경기,서울,경남 식으로 2글자만입력)
+    ->   phone1        CHAR(3), -- 연락처의 국번(02, 031, 055 등)
+    ->   phone2        CHAR(8), -- 연락처의 나머지 전화번호(하이픈제외)
+    ->   height        TINYINT UNSIGNED,  -- 평균 키
+    ->   debut_date    DATE  -- 데뷔 일자
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE DATABASE netflix_db;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE netflix_db;
+Database changed
+mysql> CREATE TABLE movie 
+    ->   (movie_id        INT,
+    ->    movie_title     VARCHAR(30),
+    ->    movie_director  VARCHAR(20),
+    ->    movie_star      VARCHAR(20),
+    ->    movie_script    LONGTEXT,
+    ->    movie_film      LONGBLOB
+    -> ); 
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> SET @myVar1 = 5;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @myvar2 = 4.25;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @myvar1;
++---------+
+| @myvar1 |
++---------+
+|       5 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @myvar2;
++---------+
+| @myvar2 |
++---------+
+|    4.25 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @myvar2+@myvar2;
++----------------------------------+
+| @myvar2+@myvar2                  |
++----------------------------------+
+| 8.500000000000000000000000000000 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @myvar1+@myvar2;
++----------------------------------+
+| @myvar1+@myvar2                  |
++----------------------------------+
+| 9.250000000000000000000000000000 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> set @txt = " 가수이름==>";
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @height 166;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '166' at line 1
+mysql> SET @height = 166;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @txt, mem-name FROM member where height > @height;
+ERROR 1146 (42S02): Table 'netflix_db.member' doesn't exist
+mysql> SELECT @txt , mem_name FROM member WHERE height > @height ;
+ERROR 1146 (42S02): Table 'netflix_db.member' doesn't exist
+mysql> 
+mysql> SELECT @txt ,member.mem_name FROM member WHERE height > @height ;
+ERROR 1146 (42S02): Table 'netflix_db.member' doesn't exist
+mysql> Show tables;
++----------------------+
+| Tables_in_netflix_db |
++----------------------+
+| movie                |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> use market_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT @txt , mem_name FROM member WHERE height > @height ;
+Empty set (0.00 sec)
+
+mysql> SET @myVar1 = 5 ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @myVar2 = 4.25 ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> SELECT @myVar1 ;
++---------+
+| @myVar1 |
++---------+
+|       5 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @myVar1 + @myVar2 ;
++----------------------------------+
+| @myVar1 + @myVar2                |
++----------------------------------+
+| 9.250000000000000000000000000000 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> SET @txt = '가수 이름==> ' ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @height = 166;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @txt , mem_name FROM member WHERE height > @height ;
+Empty set (0.01 sec)
+
+mysql> SELECT * FROM member;
+Empty set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id  
+Display all 798 possibilities? (y or n) 
+    -> ( mem_id  '경남', '055', '22222222', 163, '2016.08.08');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''경남', '055', '22222222', 163, '2016.08.08')' at line 2
+mysql> INSERT INTO member VALUES('WMN', '여자친구', 6, '경기', '031', '33333333', 166, '2015.01.15');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('OMY', '오마이걸', 7, '서울', NULL, NULL, 160, '2015.04.21');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('GRL', '소녀시대', 8, '서울', '02', '44444444', 168, '2007.08.02');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('ITZ', '잇지', 5, '경남', NULL, NULL, 167, '2019.02.12');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('RED', '레드벨벳', 4, '경북', '054', '55555555', 161, '2014.08.01');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('APN', '에이핑크', 6, '경기', '031', '77777777', 164, '2011.02.10');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('SPC', '우주소녀', 13, '서울', '02', '88888888', 162, '2016.02.25');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> INSERT INTO member VALUES('MMU', '마마무', 4, '전남', '061', '99999999', 165, '2014.06.19');
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '지갑', NULL, 30, 2);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '맥북프로', '디지털', 1000, 1);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '아이폰', '디지털', 200, 1);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '아이폰', '디지털', 200, 5);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '청바지', '패션', 50, 3);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '에어팟', '디지털', 80, 10);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'GRL', '혼공SQL', '서적', 15, 5);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '혼공SQL', '서적', 15, 2);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '청바지', '패션', 50, 1);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '지갑', NULL, 30, 1);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '혼공SQL', '서적', 15, 1);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '지갑', NULL, 30, 4);
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> 
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+| GRL    | 소녀시대     |          8 | 서울   | 02     | 44444444 |    168 | 2007-08-02 |
+| ITZ    | 잇지         |          5 | 경남   | NULL   | NULL     |    167 | 2019-02-12 |
+| MMU    | 마마무       |          4 | 전남   | 061    | 99999999 |    165 | 2014-06-19 |
+| OMY    | 오마이걸     |          7 | 서울   | NULL   | NULL     |    160 | 2015-04-21 |
+| RED    | 레드벨벳     |          4 | 경북   | 054    | 55555555 |    161 | 2014-08-01 |
+| SPC    | 우주소녀     |         13 | 서울   | 02     | 88888888 |    162 | 2016-02-25 |
+| WMN    | 여자친구     |          6 | 경기   | 031    | 33333333 |    166 | 2015-01-15 |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> show talbes;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'talbes' at line 1
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| hongong1            |
+| hongong2            |
+| hongong4            |
+| member              |
++---------------------+
+4 rows in set (0.01 sec)
+
+mysql> 
+mysql> CREATE TABLE buy -- 구매 테이블
+    -> (  num 
+Display all 798 possibilities? (y or n) 
+    -> (  num INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- 순번(PK)
+    ->    mem_id  CHAR(8) NOT NULL, -- 아이디(FK)
+    ->    prod_name CHAR(6) NOT NULL, --  제품이름
+    ->    group_name CHAR(4)  , -- 분류
+    ->    price     INT  NOT NULL, -- 가격
+    ->    amount    SMALLINT  NOT NULL, -- 수량
+    ->    FOREIGN KEY (mem_id) REFERENCES member(mem_id)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '지갑', NULL, 30, 2);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`market_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '맥북프로', '디지털', 1000, 1);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`market_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '아이폰', '디지털', 200, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '아이폰', '디지털', 200, 5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '청바지', '패션', 50, 3);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`market_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '에어팟', '디지털', 80, 10);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'GRL', '혼공SQL', '서적', 15, 5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '혼공SQL', '서적', 15, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '청바지', '패션', 50, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '지갑', NULL, 30, 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'APN', '혼공SQL', '서적', 15, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'MMU', '지갑', NULL, 30, 4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> USE market_db;
+Database changed
+mysql> SET @myVar1 = 5 ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @myVar2 = 4.25 ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> SELECT @myVar1 ;
++---------+
+| @myVar1 |
++---------+
+|       5 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @myVar1 + @myVar2 ;
++----------------------------------+
+| @myVar1 + @myVar2                |
++----------------------------------+
+| 9.250000000000000000000000000000 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> SET @txt = '가수 이름==> ' ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @height = 166;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @txt , mem_name FROM member WHERE height > @height ;
++-------------------+--------------+
+| @txt              | mem_name     |
++-------------------+--------------+
+| 가수 이름==>      | 소녀시대     |
+| 가수 이름==>      | 잇지         |
++-------------------+--------------+
+2 rows in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> SET @count = 3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT mem_name, height FROM member ORDER BY height LIMIT @count;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '@count' at line 1
+mysql> 
+mysql> 
+mysql> 
+mysql> PREPARE mySQL FROM 'SELECT mem_name, height FROM member ORDER BY height LIMIT ?';
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql> EXECUTE mySQL USING @count;
++--------------+--------+
+| mem_name     | height |
++--------------+--------+
+| 오마이걸     |    160 |
+| 레드벨벳     |    161 |
+| 우주소녀     |    162 |
++--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT AVG(price) '평균 가격' FROM buy;
++---------------+
+| 평균 가격     |
++---------------+
+|       70.5556 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CAST(AVG(price) AS SIGNED)  '평균 가격'  FROM buy ;
++---------------+
+| 평균 가격     |
++---------------+
+|            71 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONVERT(AVG(price) , SIGNED)  '평균 가격'  FROM buy ;
++---------------+
+| 평균 가격     |
++---------------+
+|            71 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONVERT(AVG(price) , SIGNED)  '평균 가격'  FROM buy ;
++---------------+
+| 평균 가격     |
++---------------+
+|            71 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CAST('2022$12$12' AS DATE);
++----------------------------+
+| CAST('2022$12$12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT CAST('2022/12/12' AS DATE);
++----------------------------+
+| CAST('2022/12/12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> SELECT CAST('2022%12%12' AS DATE);
++----------------------------+
+| CAST('2022%12%12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT CAST('2022@12@12' AS DATE);
++----------------------------+
+| CAST('2022@12@12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT CAST('2022+12=12' AS DATE);
++----------------------------+
+| CAST('2022+12=12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT num, CONCAT(CAST(price AS CHAR), 'X', CAST(amount AS CHAR) ,'=' ) '가격X수량',
+    ->     price*amount '구매액' 
+    ->   FROM buy ;
++-----+---------------+-----------+
+| num | 가격X수량     | 구매액    |
++-----+---------------+-----------+
+|   3 | 200X1=        |       200 |
+|   4 | 200X5=        |      1000 |
+|   6 | 80X10=        |       800 |
+|   7 | 15X5=         |        75 |
+|   8 | 15X2=         |        30 |
+|   9 | 50X1=         |        50 |
+|  10 | 30X1=         |        30 |
+|  11 | 15X1=         |        15 |
+|  12 | 30X4=         |       120 |
++-----+---------------+-----------+
+9 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT '100' + '200' ; -- 문자와 문자를 더함 (정수로 변환되서 연산됨)
++---------------+
+| '100' + '200' |
++---------------+
+|           300 |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT CONCAT('100', '200'); -- 문자와 문자를 연결 (문자로 처리)
++----------------------+
+| CONCAT('100', '200') |
++----------------------+
+| 100200               |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(100, '200'); -- 정수와 문자를 연결 (정수가 문자로 변환되서 처리)
++--------------------+
+| CONCAT(100, '200') |
++--------------------+
+| 100200             |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 1 > '2mega'; -- 정수인 2로 변환되어서 비교
++-------------+
+| 1 > '2mega' |
++-------------+
+|           0 |
++-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT 3 > '2MEGA'; -- 정수인 2로 변환되어서 비교
++-------------+
+| 3 > '2MEGA' |
++-------------+
+|           1 |
++-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT 0 = 'mega2'; -- 문자는 0으로 변환됨
++-------------+
+| 0 = 'mega2' |
++-------------+
+|           1 |
++-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT * FROM buy 
+    -> INNER JOIN member
+    -> on buy.mem_id = member.mem_id
+    -> WHERE buy.mem_id = 'GRL';
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+| num | mem_id | prod_name | group_name | price | amount | mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+|   7 | GRL    | 혼공SQL   | 서적       |    15 |      5 | GRL    | 소녀시대     |          8 | 서울   | 02     | 44444444 |    168 | 2007-08-02 |
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> SELECT * 
+    ->    FROM buy
+    ->      INNER JOIN member
+    ->      ON buy.mem_id = member.mem_id
+    -> ;
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+| num | mem_id | prod_name | group_name | price | amount | mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+|   3 | APN    | 아이폰    | 디지털     |   200 |      1 | APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+|   8 | APN    | 혼공SQL   | 서적       |    15 |      2 | APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+|   9 | APN    | 청바지    | 패션       |    50 |      1 | APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+|  11 | APN    | 혼공SQL   | 서적       |    15 |      1 | APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+|   7 | GRL    | 혼공SQL   | 서적       |    15 |      5 | GRL    | 소녀시대     |          8 | 서울   | 02     | 44444444 |    168 | 2007-08-02 |
+|   4 | MMU    | 아이폰    | 디지털     |   200 |      5 | MMU    | 마마무       |          4 | 전남   | 061    | 99999999 |    165 | 2014-06-19 |
+|   6 | MMU    | 에어팟    | 디지털     |    80 |     10 | MMU    | 마마무       |          4 | 전남   | 061    | 99999999 |    165 | 2014-06-19 |
+|  10 | MMU    | 지갑      | NULL       |    30 |      1 | MMU    | 마마무       |          4 | 전남   | 061    | 99999999 |    165 | 2014-06-19 |
+|  12 | MMU    | 지갑      | NULL       |    30 |      4 | MMU    | 마마무       |          4 | 전남   | 061    | 99999999 |    165 | 2014-06-19 |
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+9 rows in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT buy.mem_id, mem_name, prod_name, addr, CONCAT(phone1, phone2) as "연락처"
+    -> from buy
+    -> INNER JOIN member
+    -> On buy,mem_id = member.mem_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '= member.mem_id' at line 4
+mysql> SELECT buy.mem_id, mem_name, prod_name, addr, CONCAT(phone1, phone2) AS '연락처' 
+    ->    FROM buy
+    ->      INNER JOIN member
+    ->      ON buy.mem_id = member.mem_id;
++--------+--------------+-----------+--------+-------------+
+| mem_id | mem_name     | prod_name | addr   | 연락처      |
++--------+--------------+-----------+--------+-------------+
+| APN    | 에이핑크     | 아이폰    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| APN    | 에이핑크     | 청바지    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   | 0244444444  |
+| MMU    | 마마무       | 아이폰    | 전남   | 06199999999 |
+| MMU    | 마마무       | 에어팟    | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
++--------+--------------+-----------+--------+-------------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT buy.mem_id, mem_name, prod_name, addr, CONCAT(phone1, phone2) AS '연락처' 
+    ->    FROM buy
+    ->      INNER JOIN member
+    ->      ON buy.mem_id = member.mem_id;
++--------+--------------+-----------+--------+-------------+
+| mem_id | mem_name     | prod_name | addr   | 연락처      |
++--------+--------------+-----------+--------+-------------+
+| APN    | 에이핑크     | 아이폰    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| APN    | 에이핑크     | 청바지    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   | 0244444444  |
+| MMU    | 마마무       | 아이폰    | 전남   | 06199999999 |
+| MMU    | 마마무       | 에어팟    | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
++--------+--------------+-----------+--------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT buy.mem_id, mem_name, prod_name, addr, CONCAT(phone1, phone2) AS '연락처' 
+    ->    FROM buy
+    ->      INNER JOIN member
+    ->      ON buy.mem_id = member.mem_id
+    -> where buy.mem_id = "GRL'
+    "> ;
+    "> "
+    -> 
+    -> ;
+Empty set (0.00 sec)
+
+mysql> SELECT buy.mem_id, mem_name, prod_name, addr, CONCAT(phone1, phone2) AS '연락처' 
+    ->    FROM buy
+    ->      INNER JOIN member
+    ->      ON buy.mem_id = member.mem_id
+    -> WHERE buy.mem_id = 'GRL';
++--------+--------------+-----------+--------+------------+
+| mem_id | mem_name     | prod_name | addr   | 연락처     |
++--------+--------------+-----------+--------+------------+
+| GRL    | 소녀시대     | 혼공SQL   | 서울   | 0244444444 |
++--------+--------------+-----------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT B.mem_id, M.mem_name, B.prod_name, M.addr, 
+    ->         CONCAT(M.phone1, M.phone2) AS '연락처' 
+    ->    FROM buy B
+    ->      INNER JOIN member M
+    ->      ON B.mem_id = M.mem_id;
++--------+--------------+-----------+--------+-------------+
+| mem_id | mem_name     | prod_name | addr   | 연락처      |
++--------+--------------+-----------+--------+-------------+
+| APN    | 에이핑크     | 아이폰    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| APN    | 에이핑크     | 청바지    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   | 0244444444  |
+| MMU    | 마마무       | 아이폰    | 전남   | 06199999999 |
+| MMU    | 마마무       | 에어팟    | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
++--------+--------------+-----------+--------+-------------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT B.mem_id, M.mem_name, B.prod_name, M.addr, 
+    ->         CONCAT(M.phone1, M.phone2) AS '연락처' 
+    ->    FROM buy B
+    ->      INNER JOIN member M
+    ->      ON B.mem_id = M.mem_id;
++--------+--------------+-----------+--------+-------------+
+| mem_id | mem_name     | prod_name | addr   | 연락처      |
++--------+--------------+-----------+--------+-------------+
+| APN    | 에이핑크     | 아이폰    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| APN    | 에이핑크     | 청바지    | 경기   | 03177777777 |
+| APN    | 에이핑크     | 혼공SQL   | 경기   | 03177777777 |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   | 0244444444  |
+| MMU    | 마마무       | 아이폰    | 전남   | 06199999999 |
+| MMU    | 마마무       | 에어팟    | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
+| MMU    | 마마무       | 지갑      | 전남   | 06199999999 |
++--------+--------------+-----------+--------+-------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT B.mem_id, M.mem_name, B.prod_name, M.addr, 
+    ->         CONCAT(M.phone1, M.phone2) AS '연락처' 
+    ->    FROM buy B
+    ->      INNER JOIN member M
+    ->      ON B.mem_id = M.mem_id
+    -> where b.mem_id = 'grl';
++--------+--------------+-----------+--------+------------+
+| mem_id | mem_name     | prod_name | addr   | 연락처     |
++--------+--------------+-----------+--------+------------+
+| GRL    | 소녀시대     | 혼공SQL   | 서울   | 0244444444 |
++--------+--------------+-----------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name, M.addr
+    ->    FROM buy B
+    ->      INNER JOIN member M
+    ->      ON B.mem_id = M.mem_id
+    ->    ORDER BY M.mem_id;
++--------+--------------+-----------+--------+
+| mem_id | mem_name     | prod_name | addr   |
++--------+--------------+-----------+--------+
+| APN    | 에이핑크     | 아이폰    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| APN    | 에이핑크     | 청바지    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   |
+| MMU    | 마마무       | 아이폰    | 전남   |
+| MMU    | 마마무       | 에어팟    | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
++--------+--------------+-----------+--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name, M.addr
+    ->    FROM buy B
+    ->      INNER JOIN member M
+    ->      ON B.mem_id = M.mem_id
+    ->    ORDER BY M.mem_id;
++--------+--------------+-----------+--------+
+| mem_id | mem_name     | prod_name | addr   |
++--------+--------------+-----------+--------+
+| APN    | 에이핑크     | 아이폰    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| APN    | 에이핑크     | 청바지    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   |
+| MMU    | 마마무       | 아이폰    | 전남   |
+| MMU    | 마마무       | 에어팟    | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
++--------+--------------+-----------+--------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name, M.addr
+    ->    FROM member M
+    ->      LEFT OUTER JOIN buy B
+    ->      ON M.mem_id = B.mem_id
+    ->    ORDER BY M.mem_id;
++--------+--------------+-----------+--------+
+| mem_id | mem_name     | prod_name | addr   |
++--------+--------------+-----------+--------+
+| APN    | 에이핑크     | 아이폰    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| APN    | 에이핑크     | 청바지    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   |
+| ITZ    | 잇지         | NULL      | 경남   |
+| MMU    | 마마무       | 아이폰    | 전남   |
+| MMU    | 마마무       | 에어팟    | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
+| OMY    | 오마이걸     | NULL      | 서울   |
+| RED    | 레드벨벳     | NULL      | 경북   |
+| SPC    | 우주소녀     | NULL      | 서울   |
+| WMN    | 여자친구     | NULL      | 경기   |
++--------+--------------+-----------+--------+
+14 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT DISTINCT M.mem_id, M.mem_name, M.addr
+    ->    FROM buy B
+    ->      INNER JOIN member M
+    ->      ON B.mem_id = M.mem_id
+    ->    ORDER BY M.mem_id;
++--------+--------------+--------+
+| mem_id | mem_name     | addr   |
++--------+--------------+--------+
+| APN    | 에이핑크     | 경기   |
+| GRL    | 소녀시대     | 서울   |
+| MMU    | 마마무       | 전남   |
++--------+--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name, M.addr
+    ->    FROM member M
+    ->      LEFT OUTER JOIN buy B
+    ->      ON M.mem_id = B.mem_id
+    ->    ORDER BY M.mem_id;
++--------+--------------+-----------+--------+
+| mem_id | mem_name     | prod_name | addr   |
++--------+--------------+-----------+--------+
+| APN    | 에이핑크     | 아이폰    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| APN    | 에이핑크     | 청바지    | 경기   |
+| APN    | 에이핑크     | 혼공SQL   | 경기   |
+| GRL    | 소녀시대     | 혼공SQL   | 서울   |
+| ITZ    | 잇지         | NULL      | 경남   |
+| MMU    | 마마무       | 아이폰    | 전남   |
+| MMU    | 마마무       | 에어팟    | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
+| MMU    | 마마무       | 지갑      | 전남   |
+| OMY    | 오마이걸     | NULL      | 서울   |
+| RED    | 레드벨벳     | NULL      | 경북   |
+| SPC    | 우주소녀     | NULL      | 서울   |
+| WMN    | 여자친구     | NULL      | 경기   |
++--------+--------------+-----------+--------+
+14 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> USE market_db;
+Database changed
+mysql> CREATE TABLE emp_table (emp CHAR(4), manager CHAR(4), phone VARCHAR(8));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> INSERT INTO emp_table VALUES('대표', NULL, '0000');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO emp_table VALUES('영업이사', '대표', '1111');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('관리이사', '대표', '2222');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('정보이사', '대표', '3333');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('영업과장', '영업이사', '1111-1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('경리부장', '관리이사', '2222-1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('인사부장', '관리이사', '2222-2');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('개발팀장', '정보이사', '3333-1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO emp_table VALUES('개발주임', '정보이사', '3333-1-1');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> SELECT A.emp "직원" , B.emp "직속상관", B.phone "직속상관연락처"
+    ->    FROM emp_table A
+    ->       INNER JOIN emp_table B
+    ->          ON A.manager = B.emp
+    ->    WHERE A.emp = '경리부장';
++--------------+--------------+-----------------------+
+| 직원         | 직속상관     | 직속상관연락처        |
++--------------+--------------+-----------------------+
+| 경리부장     | 관리이사     | 2222                  |
++--------------+--------------+-----------------------+
+1 row in set (0.00 sec)
+
+mysql> DROP PROCEDURE IF EXISTS ifproc1;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> 
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE ifProc1()
+    -> BEGIN
+    ->    IF 100 = 100 THEN  
+    ->       SELECT '100은 100과 같습니다.';
+    ->    END IF;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> CALL ifProc1();
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show PROcedure;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show delimiter;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter' at line 1
+mysql> call ifproc1
+    -> ;
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> desc ifproc1
+    -> ;
+ERROR 1146 (42S02): Table 'market_db.ifproc1' doesn't exist
+mysql> 
+mysql> SHOW CREATE PROCEDURE ifProc1;
++-----------+-----------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+| Procedure | sql_mode                                                                                                              | Create Procedure                                                                                                                                | character_set_client | collation_connection | Database Collation |
++-----------+-----------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+| ifProc1   | ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION | CREATE DEFINER=`root`@`localhost` PROCEDURE `ifProc1`()
+BEGIN
+   IF 100 = 100 THEN  
+      SELECT '100은 100과 같습니다.';
+   END IF;
+END       | utf8mb4              | utf8mb4_0900_ai_ci   | utf8mb4_0900_ai_ci |
++-----------+-----------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT ROUTINE_DEFINITION
+    -> FROM INFORMATION_SCHEMA.ROUTINES
+    -> WHERE ROUTINE_NAME = 'ifProc1' AND ROUTINE_TYPE = 'PROCEDURE';
++-----------------------------------------------------------------------------------------+
+| ROUTINE_DEFINITION                                                                      |
++-----------------------------------------------------------------------------------------+
+| BEGIN
+   IF 100 = 100 THEN  
+      SELECT '100은 100과 같습니다.';
+   END IF;
+END       |
++-----------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> delimiter$$
+    -> begin
+    -> DECLARE myNum INT;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delimiter$$begin
+DECLARE myNum INT' at line 1
+mysql> CREATE PROCEDURE ifProc2()
+    -> BEGIN
+    ->    DECLARE myNum INT;  -- myNum 변수선언
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql>    SET myNum = 200;  -- 변수에 값 대입
+ERROR 1193 (HY000): Unknown system variable 'myNum'
+mysql>    IF myNum = 100 THEN  
+    ->       SELECT '100입니다.';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IF myNum = 100 THEN  
+      SELECT '100입니다.'' at line 1
+mysql>    ELSE
+    ->       SELECT '100이 아닙니다.';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELSE
+      SELECT '100이 아닙니다.'' at line 1
+mysql>    END IF;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END IF' at line 1
+mysql> END $$
+    -> DELIMITER ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $$
+DELIMITER' at line 1
+mysql> CALL ifProc2();
+ERROR 1305 (42000): PROCEDURE market_db.ifProc2 does not exist
+mysql> CREATE PROCEDURE ifProc2()
+    -> BEGIN
+    ->    DECLARE myNum INT;  -- myNum 변수선언
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql>    SET myNum = 200;  -- 변수에 값 대입
+ERROR 1193 (HY000): Unknown system variable 'myNum'
+mysql>    IF myNum = 100 THEN  
+    ->       SELECT '100입니다.';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IF myNum = 100 THEN  
+      SELECT '100입니다.'' at line 1
+mysql>    ELSE
+    ->       SELECT '100이 아닙니다.';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELSE
+      SELECT '100이 아닙니다.'' at line 1
+mysql>    END IF;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END IF' at line 1
+mysql> END $$
+    -> DELIMITER ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $$
+DELIMITER' at line 1
+mysql> CALL ifProc2();DROP PROCEDURE IF EXISTS ifProc2; 
+ERROR 1305 (42000): PROCEDURE market_db.ifProc2 does not exist
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE ifProc2()
+    -> BEGIN
+    ->    DECLARE myNum INT;  -- myNum 변수선언
+    ->    SET myNum = 200;  -- 변수에 값 대입
+    ->    IF myNum = 100 THEN  
+    ->       SELECT '100입니다.';
+    ->    ELSE
+    ->       SELECT '100이 아닙니다.';
+    ->    END IF;
+    -> END $$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER ;
+mysql> CALL ifProc2();
++----------------------+
+| 100이 아닙니다.      |
++----------------------+
+| 100이 아닙니다.      |
++----------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS ifProc3; 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE ifProc3()
+    -> BEGIN
+    ->     DECLARE debutDate DATE; -- 데뷰일
+    ->     DECLARE curDate DATE; -- 오늘
+    ->     DECLARE days INT; -- 활동한 일수
+    -> 
+    ->     SELECT debut_date INTO debutDate -- debut_date 결과를 hireDATE에 대입
+    ->        FROM market_db.member
+    ->        WHERE mem_id = 'APN';
+    -> 
+    ->     SET curDATE = CURRENT_DATE(); -- 현재 날짜
+    ->     SET days =  DATEDIFF(curDATE, debutDate); -- 날짜의 차이, 일 단위
+    -> 
+    ->     IF (days/365) >= 5 THEN -- 5년이 지났다면
+    ->           SELECT CONCAT('데뷔한지 ', days, '일이나 지났습니다. 핑순이들 축하합니다!');
+    ->     ELSE
+    ->           SELECT '데뷔한지 ' + days + '일밖에 안되었네요. 핑순이들 화이팅~' ;
+    ->     END IF;
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> CALL ifProc3();
++-------------------------------------------------------------------------------------------+
+| CONCAT('데뷔한지 ', days, '일이나 지났습니다. 핑순이들 축하합니다!')                      |
++-------------------------------------------------------------------------------------------+
+| 데뷔한지 4553일이나 지났습니다. 핑순이들 축하합니다!                                      |
++-------------------------------------------------------------------------------------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS caseProc; 
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE caseProc()
+    -> BEGIN
+    ->     DECLARE point INT ;
+    ->     DECLARE credit CHAR(1);
+    ->     SET point = 88 ;
+    ->     
+    ->     CASE 
+    ->         WHEN point >= 90 THEN
+    ->             SET credit = 'A';
+    ->         WHEN point >= 80 THEN
+    ->             SET credit = 'B';
+    ->         WHEN point >= 70 THEN
+    ->             SET credit = 'C';
+    ->         WHEN point >= 60 THEN
+    ->             SET credit = 'D';
+    ->         ELSE
+    ->             SET credit = 'F';
+    ->     END CASE;
+    ->     SELECT CONCAT('취득점수==>', point), CONCAT('학점==>', credit);
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> CALL caseProc();
++----------------------------------+-----------------------------+
+| CONCAT('취득점수==>', point)     | CONCAT('학점==>', credit)   |
++----------------------------------+-----------------------------+
+| 취득점수==>88                    | 학점==>B                    |
++----------------------------------+-----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DROP PROCEDURE IF EXISTS caseProc; 
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE caseProc()
+    -> BEGIN
+    ->     DECLARE point INT ;
+    ->     DECLARE credit CHAR(1);
+    ->     SET point = 88 ;
+    ->     
+    ->     CASE 
+    ->         WHEN point >= 90 THEN
+    ->             SET credit = 'A';
+    ->         WHEN point >= 80 THEN
+    ->             SET credit = 'B';
+    ->         WHEN point >= 70 THEN
+    ->             SET credit = 'C';
+    ->         WHEN point >= 60 THEN
+    ->             SET credit = 'D';
+    ->         ELSE
+    ->             SET credit = 'F';
+    ->     END CASE;
+    ->     SELECT CONCAT('취득점수==>', point), CONCAT('학점==>', credit);
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> ;
+ERROR: 
+No query specified
+
+mysql> call caseProc();
++----------------------------------+-----------------------------+
+| CONCAT('취득점수==>', point)     | CONCAT('학점==>', credit)   |
++----------------------------------+-----------------------------+
+| 취득점수==>88                    | 학점==>B                    |
++----------------------------------+-----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT M.mem_id, M.mem_name, SUM(price*amount) "총구매액"
+    ->    FROM buy B
+    ->          RIGHT OUTER JOIN member M
+    ->          ON B.mem_id = M.mem_id
+    ->    GROUP BY M.mem_id
+    ->    ORDER BY SUM(price*amount) DESC ;
++--------+--------------+--------------+
+| mem_id | mem_name     | 총구매액     |
++--------+--------------+--------------+
+| MMU    | 마마무       |         1950 |
+| APN    | 에이핑크     |          295 |
+| GRL    | 소녀시대     |           75 |
+| ITZ    | 잇지         |         NULL |
+| OMY    | 오마이걸     |         NULL |
+| RED    | 레드벨벳     |         NULL |
+| SPC    | 우주소녀     |         NULL |
+| WMN    | 여자친구     |         NULL |
++--------+--------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, SUM(price*amount) "총구매액"
+    ->    FROM buy B
+    ->          RIGHT OUTER JOIN member M
+    ->          ON B.mem_id = M.mem_id
+    ->    GROUP BY M.mem_id
+    ->    ORDER BY SUM(price*amount) DESC ;
++--------+--------------+--------------+
+| mem_id | mem_name     | 총구매액     |
++--------+--------------+--------------+
+| MMU    | 마마무       |         1950 |
+| APN    | 에이핑크     |          295 |
+| GRL    | 소녀시대     |           75 |
+| ITZ    | 잇지         |         NULL |
+| OMY    | 오마이걸     |         NULL |
+| RED    | 레드벨벳     |         NULL |
+| SPC    | 우주소녀     |         NULL |
+| WMN    | 여자친구     |         NULL |
++--------+--------------+--------------+
+8 rows in set (0.00 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, SUM(price*amount) "총구매액",
+    ->         CASE  
+    ->            WHEN (SUM(price*amount)  >= 1500) THEN '최우수고객'
+    ->            WHEN (SUM(price*amount)  >= 1000) THEN '우수고객'
+    ->            WHEN (SUM(price*amount) >= 1 ) THEN '일반고객'
+    ->            ELSE '유령고객'
+    ->         END "회원등급"
+    ->    FROM buy B
+    ->          RIGHT OUTER JOIN member M
+    ->          ON B.mem_id = M.mem_id
+    ->    GROUP BY M.mem_id
+    ->    ORDER BY SUM(price*amount) DESC ;
++--------+--------------+--------------+-----------------+
+| mem_id | mem_name     | 총구매액     | 회원등급        |
++--------+--------------+--------------+-----------------+
+| MMU    | 마마무       |         1950 | 최우수고객      |
+| APN    | 에이핑크     |          295 | 일반고객        |
+| GRL    | 소녀시대     |           75 | 일반고객        |
+| ITZ    | 잇지         |         NULL | 유령고객        |
+| OMY    | 오마이걸     |         NULL | 유령고객        |
+| RED    | 레드벨벳     |         NULL | 유령고객        |
+| SPC    | 우주소녀     |         NULL | 유령고객        |
+| WMN    | 여자친구     |         NULL | 유령고객        |
++--------+--------------+--------------+-----------------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS whileProc; 
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE whileProc()
+    -> BEGIN
+    ->     DECLARE i INT; -- 1에서 100까지 증가할 변수
+    ->     DECLARE hap INT; -- 더한 값을 누적할 변수
+    ->     SET i = 1;
+    ->     SET hap = 0;
+    -> 
+    ->     WHILE (i <= 100) DO
+    ->         SET hap = hap + i;  -- hap의 원래의 값에 i를 더해서 다시 hap에 넣으라는 의미
+    ->         SET i = i + 1;      -- i의 원래의 값에 1을 더해서 다시 i에 넣으라는 의미
+    ->     END WHILE;
+    -> 
+    ->     SELECT '1부터 100까지의 합 ==>', hap;   
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> call while proc();
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'while proc()' at line 1
+mysql> CALL whileProc();
++------------------------------+------+
+| 1부터 100까지의 합 ==>       | hap  |
++------------------------------+------+
+| 1부터 100까지의 합 ==>       | 5050 |
++------------------------------+------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS whileProc2; 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE whileProc2()
+    -> BEGIN
+    ->     DECLARE i INT; -- 1에서 100까지 증가할 변수
+    ->     DECLARE hap INT; -- 더한 값을 누적할 변수
+    ->     SET i = 1;
+    ->     SET hap = 0;
+    -> 
+    ->     myWhile: 
+    ->     WHILE (i <= 100) DO  -- While문에 label을 지정
+    ->        IF (i%4 = 0) THEN
+    ->          SET i = i + 1;     
+    ->          ITERATE myWhile; -- 지정한 label문으로 가서 계속 진행
+    ->        END IF;
+    ->        SET hap = hap + i; 
+    ->        IF (hap > 1000) THEN 
+    ->          LEAVE myWhile; -- 지정한 label문을 떠남. 즉, While 종료.
+    ->        END IF;
+    ->        SET i = i + 1;
+    ->     END WHILE;
+    -> 
+    ->     SELECT '1부터 100까지의 합(4의 배수 제외), 1000 넘으면 종료 ==>', hap; 
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> CALL whileProc2();
++-------------------------------------------------------------------------+------+
+| 1부터 100까지의 합(4의 배수 제외), 1000 넘으면 종료 ==>                 | hap  |
++-------------------------------------------------------------------------+------+
+| 1부터 100까지의 합(4의 배수 제외), 1000 넘으면 종료 ==>                 | 1014 |
++-------------------------------------------------------------------------+------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> use market_db;
+Database changed
+mysql> PREPARE myQuery FROM 'SELECT * FROM member WHERE mem_id = "BLK"';
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql> EXECUTE myQuery;
+Empty set (0.00 sec)
+
+mysql> DEALLOCATE PREPARE myQuery;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DROP TABLE IF EXISTS gate_table;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> CREATE TABLE gate_table (id INT AUTO_INCREMENT PRIMARY KEY, entry_time DATETIME);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> SET @curDate = CURRENT_TIMESTAMP(); -- 현재 날짜와 시간
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> PREPARE myQuery FROM 'INSERT INTO gate_table VALUES(NULL, ?)';
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql> EXECUTE myQuery USING @curDate;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> DEALLOCATE PREPARE myQuery;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM gate_table;
++----+---------------------+
+| id | entry_time          |
++----+---------------------+
+|  1 | 2023-07-30 16:52:26 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> 
