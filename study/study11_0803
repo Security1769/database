@@ -1,0 +1,438 @@
+mysql> 
+mysql> 
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| market_db          |
+| mysql              |
+| netflix_db         |
+| performance_schema |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use market_Db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show talbes;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'talbes' at line 1
+mysql> show talbes;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'talbes' at line 1
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| emp_table           |
+| gate_table          |
+| hongong1            |
+| hongong2            |
+| hongong4            |
+| member              |
++---------------------+
+7 rows in set (0.00 sec)
+
+mysql> CREATE TABLE sample_table(num INT);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DROP DATABASES IF EXISTS naver_db;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DATABASES IF EXISTS naver_db' at line 1
+mysql> CREATE DATABASE naver_db;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use naver_db
+Database changed
+mysql> DROP TABLE IF EXISTS member;  -- 기존에 있으면 삭제
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id        CHAR(8) NOT NULL PRIMARY KEY,
+    ->   mem_name      VARCHAR(10) NOT NULL, 
+    ->   mem_number    TINYINT NOT NULL, 
+    ->   addr          CHAR(2) NOT NULL,
+    ->   phone1        CHAR(3) NULL,
+    ->   phone2        CHAR(8) NULL,
+    ->   height        TINYINT UNSIGNED NULL, 
+    ->   debut_date    DATE NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DROP TABLE IF EXISTS buy;  -- 기존에 있으면 삭제
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> CREATE TABLE buy 
+    -> (  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ->    mem_id      CHAR(8) NOT NULL, 
+    ->    prod_name     CHAR(6) NOT NULL, 
+    ->    group_name     CHAR(4) NULL ,
+    ->    price         INT UNSIGNED NOT NULL,
+    ->    amount        SMALLINT UNSIGNED  NOT NULL ,
+    ->    FOREIGN KEY(mem_id) REFERENCES member(mem_id)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 9, '서울', '02', '11111111', 167, '2015-10-19');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남', '055', '22222222', 163, '2016-8-8');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('WMN', '여자친구', 6, '경기', '031', '33333333', 166, '2015-1-15');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO buy VALUES( NULL, 'BLK', '지갑', NULL, 30, 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES( NULL, 'BLK', '맥북프로', '디지털', 1000, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`naver_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> 
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| BLK    | 블랙핑크     |          4 | 경남   | 055    | 22222222 |    163 | 2016-08-08 |
+| TWC    | 트와이스     |          9 | 서울   | 02     | 11111111 |    167 | 2015-10-19 |
+| WMN    | 여자친구     |          6 | 경기   | 031    | 33333333 |    166 | 2015-01-15 |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM buy;
++-----+--------+--------------+------------+-------+--------+
+| num | mem_id | prod_name    | group_name | price | amount |
++-----+--------+--------------+------------+-------+--------+
+|   1 | BLK    | 지갑         | NULL       |    30 |      2 |
+|   2 | BLK    | 맥북프로     | 디지털     |  1000 |      1 |
++-----+--------+--------------+------------+-------+--------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`naver_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> 
+mysql> 
+mysql> DESC member;
++------------+------------------+------+-----+---------+-------+
+| Field      | Type             | Null | Key | Default | Extra |
++------------+------------------+------+-----+---------+-------+
+| mem_id     | char(8)          | NO   | PRI | NULL    |       |
+| mem_name   | varchar(10)      | NO   |     | NULL    |       |
+| mem_number | tinyint          | NO   |     | NULL    |       |
+| addr       | char(2)          | NO   |     | NULL    |       |
+| phone1     | char(3)          | YES  |     | NULL    |       |
+| phone2     | char(8)          | YES  |     | NULL    |       |
+| height     | tinyint unsigned | YES  |     | NULL    |       |
+| debut_date | date             | YES  |     | NULL    |       |
++------------+------------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> 
+mysql> mysql> INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysql> INSERT INTO buy VALUES( NULL, 'APN', '아이폰', '디지털', 200, 1)' at line 1
+mysql> ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`naver_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+    -> mysql> 
+    -> 
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f' at line 1
+mysql> DROP TABLE IF EXISTS member;
+ERROR 3730 (HY000): Cannot drop table 'member' referenced by a foreign key constraint 'buy_ibfk_1' on table 'buy'.
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+ERROR 1050 (42S01): Table 'member' already exists
+mysql> DROP TABLE IF EXISTS member;
+ERROR 3730 (HY000): Cannot drop table 'member' referenced by a foreign key constraint 'buy_ibfk_1' on table 'buy'.
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+ERROR 1050 (42S01): Table 'member' already exists
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+ERROR 3730 (HY000): Cannot drop table 'member' referenced by a foreign key constraint 'buy_ibfk_1' on table 'buy'.
+mysql> DROP TABLE IF EXISTS buy;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS buy;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> CREATE TABLE buy 
+    -> (  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ->    mem_id      CHAR(8) NOT NULL, 
+    ->    prod_name     CHAR(6) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> ALTER TABLE buy
+    ->     ADD CONSTRAINT 
+    ->     FOREIGN KEY(mem_id) REFERENCES member(mem_id);
+ERROR 1824 (HY000): Failed to open the referenced table 'member'
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163);
+ERROR 1146 (42S02): Table 'naver_db.member' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '지갑');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '맥북');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS buy;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE buy 
+    -> (  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ->    mem_id      CHAR(8) NOT NULL, 
+    ->    prod_name     CHAR(6) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> ALTER TABLE buy
+    ->     ADD CONSTRAINT 
+    ->     FOREIGN KEY(mem_id) REFERENCES member(mem_id);
+ERROR 1824 (HY000): Failed to open the referenced table 'member'
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163);
+ERROR 1146 (42S02): Table 'naver_db.member' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '지갑');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '맥북');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name 
+    ->    FROM buy B
+    ->       INNER JOIN member M
+    ->       ON B.mem_id = M.mem_id;
+ERROR 1146 (42S02): Table 'naver_db.member' doesn't exist
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163);
+ERROR 1146 (42S02): Table 'naver_db.member' doesn't exist
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '지갑');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '맥북');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE buy 
+    -> (  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ->    user_id      CHAR(8) NOT NULL, 
+    ->    prod_name     CHAR(6) NOT NULL, 
+    ->    FOREIGN KEY(user_id) REFERENCES member(mem_id)
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql> 
+mysql> 
+mysql> show tables;
++--------------------+
+| Tables_in_naver_db |
++--------------------+
+| buy                |
+| member             |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM memeber;
+ERROR 1146 (42S02): Table 'naver_db.memeber' doesn't exist
+mysql> 
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163, 'pink@gmail.com');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 167, NULL);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO member VALUES('APN', '에이핑크', 164, 'pink@gmail.com');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SELECT * FROM member;
+Empty set (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM member;
+Empty set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163, 'pink@gmail.com');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 167, NULL);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO member VALUES('APN', '에이핑크', 164, 'pink@gmail.com');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> SELECT * FROM member;
+Empty set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS buy, member;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   email       CHAR(30)  NULL UNIQUE
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163, 'pink@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 167, NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('APN', '에이핑크', 164, 'pink@gmail.com');
+ERROR 1062 (23000): Duplicate entry 'pink@gmail.com' for key 'member.email'
+mysql> SELECT * FROM member;
++--------+--------------+--------+----------------+
+| mem_id | mem_name     | height | email          |
++--------+--------------+--------+----------------+
+| BLK    | 블랙핑크     |    163 | pink@gmail.com |
+| TWC    | 트와이스     |    167 | NULL           |
++--------+--------------+--------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> ALTER TABLE member
+    ->     ADD CONSTRAINT 
+    ->     CHECK  (phone1 IN ('02', '031', '032', '054', '055', '061' )) ;
+ERROR 1054 (42S22): Unknown column 'phone1' in 'check constraint member_chk_1 expression'
+mysql> \
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL DEFAULT 160,
+    ->   phone1      CHAR(3)  NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> ALTER TABLE member
+    ->     ALTER COLUMN phone1 SET DEFAULT '02';
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO member VALUES('RED', '레드벨벳', 161, '054');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('SPC', '우주소녀', default, default);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM member;
++--------+--------------+--------+--------+
+| mem_id | mem_name     | height | phone1 |
++--------+--------------+--------+--------+
+| RED    | 레드벨벳     |    161 | 054    |
+| SPC    | 우주소녀     |    160 | 02     |
++--------+--------------+--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
