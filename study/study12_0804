@@ -1,0 +1,378 @@
+Database changed
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| emp_table           |
+| gate_table          |
+| hongong1            |
+| hongong2            |
+| hongong4            |
+| member              |
+| sample_table        |
++---------------------+
+8 rows in set (0.01 sec)
+
+mysql> create table table1(
+    -> col1 INT PRIMARY KEY,
+    -> col2 INT,
+    -> col3 INT
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> SHOW INDEX FROM table1;
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table  | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| table1 |          0 | PRIMARY  |            1 | col1        | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.01 sec)
+
+mysql> CREATE TABLE table2  (
+    ->     col1  INT  PRIMARY KEY,
+    ->     col2  INT  UNIQUE,
+    ->     col3  INT  UNIQUE
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SHOW INDEX FROM table2;
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table  | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| table2 |          0 | PRIMARY  |            1 | col1        | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| table2 |          0 | col2     |            1 | col2        | A         |           0 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
+| table2 |          0 | col3     |            1 | col3        | A         |           0 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++--------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.01 sec)
+
+mysql> USE market_db;
+Database changed
+mysql> DROP TABLE IF EXISTS buy, member;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id      CHAR(8) , 
+    ->   mem_name    VARCHAR(10),
+    ->   mem_number  INT ,  
+    ->   addr        CHAR(2)  
+    ->  );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 9, '서울');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('WMN', '여자친구', 6, '경기');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('OMY', '오마이걸', 7, '서울');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| TWC    | 트와이스     |          9 | 서울   |
+| BLK    | 블랙핑크     |          4 | 경남   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
++--------+--------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> ALTER TABLE member
+    ->      ADD CONSTRAINT 
+    ->      PRIMARY KEY (mem_id);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
++--------+--------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> ALTER TABLE member DROP PRIMARY KEY ; -- 기본 키 제거
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE member 
+    ->     ADD CONSTRAINT 
+    ->     PRIMARY KEY(mem_name);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> INSERT INTO member VALUES('GRL', '소녀시대', 8, '서울');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| GRL    | 소녀시대     |          8 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 9, '서울');
+ERROR 1062 (23000): Duplicate entry '트와이스' for key 'member.PRIMARY'
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 4, '경남');
+ERROR 1062 (23000): Duplicate entry '블랙핑크' for key 'member.PRIMARY'
+mysql> INSERT INTO member VALUES('WMN', '여자친구', 6, '경기');
+ERROR 1062 (23000): Duplicate entry '여자친구' for key 'member.PRIMARY'
+mysql> INSERT INTO member VALUES('OMY', '오마이걸', 7, '서울');
+ERROR 1062 (23000): Duplicate entry '오마이걸' for key 'member.PRIMARY'
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| GRL    | 소녀시대     |          8 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+5 rows in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> ALTER TABLE member
+    ->      ADD CONSTRAINT 
+    ->      UNIQUE (mem_name);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| GRL    | 소녀시대     |          8 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO member VALUES('GRL', '소녀시대', 8, '서울');
+ERROR 1062 (23000): Duplicate entry '소녀시대' for key 'member.PRIMARY'
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| GRL    | 소녀시대     |          8 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> ALTER TABLE member
+    ->      ADD CONSTRAINT 
+    ->      UNIQUE (mem_name);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> SELECT * FROM member;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| GRL    | 소녀시대     |          8 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE TABLE cluster  -- 클러스터형 테이블 
+    -> ( mem_id      CHAR(8) , 
+    ->   mem_name    VARCHAR(10)
+    ->  );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO cluster VALUES('TWC', '트와이스');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('BLK', '블랙핑크');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('WMN', '여자친구');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('OMY', '오마이걸');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('GRL', '소녀시대');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('ITZ', '잇지');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('RED', '레드벨벳');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('APN', '에이핑크');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('SPC', '우주소녀');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO cluster VALUES('MMU', '마마무');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM cluster;
++--------+--------------+
+| mem_id | mem_name     |
++--------+--------------+
+| TWC    | 트와이스     |
+| BLK    | 블랙핑크     |
+| WMN    | 여자친구     |
+| OMY    | 오마이걸     |
+| GRL    | 소녀시대     |
+| ITZ    | 잇지         |
+| RED    | 레드벨벳     |
+| APN    | 에이핑크     |
+| SPC    | 우주소녀     |
+| MMU    | 마마무       |
++--------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> SHOW INDEX FROM member;
++--------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table  | Non_unique | Key_name   | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++--------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| member |          0 | PRIMARY    |            1 | mem_name    | A         |           4 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| member |          0 | mem_name   |            1 | mem_name    | A         |           5 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
+| member |          0 | mem_name_2 |            1 | mem_name    | A         |           5 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++--------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SHOW TABLE STATUS LIKE 'member';
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+| Name   | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time | Collation          | Checksum | Create_options | Comment |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+| member | InnoDB |      10 | Dynamic    |    5 |           3276 |       16384 |               0 |            0 |         0 |           NULL | 2023-08-04 15:58:15 | 2023-08-04 15:57:22 | NULL       | utf8mb4_0900_ai_ci |     NULL |                |         |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+1 row in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> SHOW TABLE STATUS LIKE 'member';
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+| Name   | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time | Collation          | Checksum | Create_options | Comment |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+| member | InnoDB |      10 | Dynamic    |    5 |           3276 |       16384 |               0 |            0 |         0 |           NULL | 2023-08-04 15:58:15 | 2023-08-04 15:57:22 | NULL       | utf8mb4_0900_ai_ci |     NULL |                |         |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+1 row in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> ANALYZE TABLE member;
++------------------+---------+----------+----------+
+| Table            | Op      | Msg_type | Msg_text |
++------------------+---------+----------+----------+
+| market_db.member | analyze | status   | OK       |
++------------------+---------+----------+----------+
+1 row in set (0.01 sec)
+
+mysql> SHOW TABLE STATUS LIKE 'member';
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+| Name   | Engine | Version | Row_format | Rows | Avg_row_length | Data_length | Max_data_length | Index_length | Data_free | Auto_increment | Create_time         | Update_time         | Check_time | Collation          | Checksum | Create_options | Comment |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+| member | InnoDB |      10 | Dynamic    |    5 |           3276 |       16384 |               0 |        32768 |         0 |           NULL | 2023-08-04 15:58:15 | 2023-08-04 15:57:22 | NULL       | utf8mb4_0900_ai_ci |     NULL |                |         |
++--------+--------+---------+------------+------+----------------+-------------+-----------------+--------------+-----------+----------------+---------------------+---------------------+------------+--------------------+----------+----------------+---------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> CREATE INDEX idx_member_mem_number
+    ->     ON member (mem_number);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ANALYZE TABLE member; -- 인덱스 적용
++------------------+---------+----------+----------+
+| Table            | Op      | Msg_type | Msg_text |
++------------------+---------+----------+----------+
+| market_db.member | analyze | status   | OK       |
++------------------+---------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT table_name, constraint_name
+    ->     FROM information_schema.referential_constraints
+    ->     WHERE constraint_schema = 'market_db';
+Empty set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> ALTER TABLE buy 
+    ->     DROP FOREIGN KEY buy_ibfk_1;
+ERROR 1146 (42S02): Table 'market_db.buy' doesn't exist
+mysql> ALTER TABLE member 
+    ->     DROP PRIMARY KEY;
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT mem_id, mem_name, mem_number, addr 
+    ->     FROM member 
+    ->     WHERE mem_name = '에이핑크';
+Empty set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO member VALUES('MOO', '마마무', 2, '태국', '001', '12341234', 155, '2020.10.10');
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> 
