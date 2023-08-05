@@ -1,0 +1,312 @@
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+mysql> 
+mysql> 
+mysql> USE market_db;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> DROP PROCEDURE IF EXISTS user_proc;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE user_proc()
+    -> BEGIN
+    ->     SELECT * FROM member; -- 스토어드 프로시저 내용
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> CALL user_proc();
++--------+--------------+------------+--------+
+| mem_id | mem_name     | mem_number | addr   |
++--------+--------------+------------+--------+
+| BLK    | 블랙핑크     |          4 | 경남   |
+| GRL    | 소녀시대     |          8 | 서울   |
+| WMN    | 여자친구     |          6 | 경기   |
+| OMY    | 오마이걸     |          7 | 서울   |
+| TWC    | 트와이스     |          9 | 서울   |
++--------+--------------+------------+--------+
+5 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> DROP PROCEDURE user_proc;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> USE market_db;
+Database changed
+mysql> DROP PROCEDURE IF EXISTS user_proc1;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE user_proc1(IN userName VARCHAR(10))
+    -> BEGIN
+    ->   SELECT * FROM member WHERE mem_name = userName; 
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> Call user_proc1('에이핑크')
+    -> ;
+Empty set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DROP PROCEDURE IF EXISTS user_proc2;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE user_proc2(
+    ->     IN userNumber INT, 
+    ->     IN userHeight INT  )
+    -> BEGIN
+    ->   SELECT * FROM member 
+    ->     WHERE mem_number > userNumber AND height > userHeight;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> call user_proc2();
+ERROR 1318 (42000): Incorrect number of arguments for PROCEDURE market_db.user_proc2; expected 2, got 0
+mysql> call user_proc2(6, 165);
+ERROR 1054 (42S22): Unknown column 'height' in 'where clause'
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS user_proc3;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE user_proc3(
+    ->     IN txtValue CHAR(10),
+    ->     OUT outValue INT     )
+    -> BEGIN
+    ->   INSERT INTO noTable VALUES(NULL,txtValue);
+    ->   SELECT MAX(id) INTO outValue FROM noTable; 
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> DESC noTable;
+ERROR 1146 (42S02): Table 'market_db.notable' doesn't exist
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| cluster             |
+| emp_table           |
+| gate_table          |
+| hongong1            |
+| hongong2            |
+| hongong4            |
+| member              |
+| sample_table        |
+| table1              |
+| table2              |
++---------------------+
+10 rows in set (0.00 sec)
+
+mysql> CREATE PROCEDURE user_proc3(
+    ->     IN txtValue CHAR(10),
+    ->     OUT outValue INT     )
+    -> BEGIN
+    ->   INSERT INTO noTable VALUES(NULL,txtValue);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql>   SELECT MAX(id) INTO outValue FROM noTable; 
+ERROR 1327 (42000): Undeclared variable: outValue
+mysql> END $$
+    -> DELIMITER ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $$
+DELIMITER' at line 1
+mysql> 
+mysql> DESC noTable;
+ERROR 1146 (42S02): Table 'market_db.notable' doesn't exist
+mysql> 
+mysql> CREATE PROCEDURE user_proc3(
+    ->     IN txtValue CHAR(10),
+    ->     OUT outValue INT     )
+    -> BEGIN
+    ->   INSERT INTO noTable VALUES(NULL,txtValue);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql>   SELECT MAX(id) INTO outValue FROM noTable; 
+ERROR 1327 (42000): Undeclared variable: outValue
+mysql> END $$
+    -> DELIMITER ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $$
+DELIMITER' at line 1
+mysql> 
+mysql> CREATE TABLE IF NOT EXISTS noTable(
+    ->     id INT AUTO_INCREMENT PRIMARY KEY, 
+    ->     txt CHAR(10)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> CALL user_proc3 ('테스트1', @myValue);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT CONCAT('입력된 ID 값 ==>', @myValue);
++------------------------------------------+
+| CONCAT('입력된 ID 값 ==>', @myValue)     |
++------------------------------------------+
+| 입력된 ID 값 ==>1                        |
++------------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE PROCEDURE ifelse_proc(
+    ->     IN memName VARCHAR(10)
+    -> )
+    -> BEGIN
+    ->     DECLARE debutYear INT; -- 변수 선언
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 5
+mysql>     SELECT YEAR(debut_date) into debutYear FROM member
+    ->         WHERE mem_name = memName;
+ERROR 1327 (42000): Undeclared variable: debutYear
+mysql>     IF (debutYear >= 2015) THEN
+    ->             SELECT '신인 가수네요. 화이팅 하세요.' AS '메시지';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'IF (debutYear >= 2015) THEN
+            SELECT '신인 가수네요. 화이팅 í' at line 1
+mysql>     ELSE
+    ->             SELECT '고참 가수네요. 그동안 수고하셨어요.'AS '메시지';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ELSE
+            SELECT '고참 가수네요. 그동안 수고하셨어요.'AS '' at line 1
+mysql>     END IF;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END IF' at line 1
+mysql> END $$
+    -> DELIMITER ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $$
+DELIMITER' at line 1
+mysql> 
+mysql> CALL ifelse_proc ('오마이걸');
+ERROR 1305 (42000): PROCEDURE market_db.ifelse_proc does not exist
+mysql> 
+mysql> 
+mysql> CREATE PROCEDURE while_proc()
+    -> BEGIN
+    ->     DECLARE hap INT; -- 합계
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 3
+mysql>     DECLARE num INT; -- 1부터 100까지 증가
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'DECLARE num INT' at line 1
+mysql>     SET hap = 0; -- 합계 초기화
+ERROR 1193 (HY000): Unknown system variable 'hap'
+mysql>     SET num = 1; 
+ERROR 1193 (HY000): Unknown system variable 'num'
+mysql>     
+mysql>     WHILE (num <= 100) DO  -- 100까지 반복.
+    ->         SET hap = hap + num;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHILE (num <= 100) DO  
+        SET hap = hap + num' at line 1
+mysql>         SET num = num + 1; -- 숫자 증가
+ERROR 1193 (HY000): Unknown system variable 'num'
+mysql>     END WHILE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END WHILE' at line 1
+mysql>     SELECT hap AS '1~100 합계';
+ERROR 1054 (42S22): Unknown column 'hap' in 'field list'
+mysql> END $$
+    -> DELIMITER ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'END $$
+DELIMITER' at line 1
+mysql> 
+mysql> 
+mysql> CALL while_proc();
+ERROR 1305 (42000): PROCEDURE market_db.while_proc does not exist
+mysql> 
+mysql> 
+mysql> SET GLOBAL log_bin_trust_function_creators = 1;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> USE market_db;
+Database changed
+mysql> DROP FUNCTION IF EXISTS sumFunc;
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE FUNCTION sumFunc(number1 INT, number2 INT)
+    ->     RETURNS INT
+    -> BEGIN
+    ->     RETURN number1 + number2;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> SELECT sumFunc(100, 200) AS '합계';
++--------+
+| 합계   |
++--------+
+|    300 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> USE market_db;
+Database changed
+mysql> CREATE TABLE IF NOT EXISTS trigger_table (id INT, txt VARCHAR(10));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> INSERT INTO trigger_table VALUES(1, '레드벨벳');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO trigger_table VALUES(2, '잇지');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO trigger_table VALUES(3, '블랙핑크');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DELIMITER $$ 
+mysql> CREATE TRIGGER myTrigger  -- 트리거 이름
+    ->     AFTER  DELETE -- 삭제후에 작동하도록 지정
+    ->     ON trigger_table -- 트리거를 부착할 테이블
+    ->     FOR EACH ROW -- 각 행마다 적용시킴
+    -> BEGIN
+    ->     SET @msg = '가수 그룹이 삭제됨' ; -- 트리거 실행시 작동되는 코드들
+    -> END $$ 
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> 
+mysql> 
+mysql> SET @msg = '';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> INSERT INTO trigger_table VALUES(4, '마마무');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT @msg;
++------+
+| @msg |
++------+
+|      |
++------+
+1 row in set (0.00 sec)
+
+mysql> UPDATE trigger_table SET txt = '블핑' WHERE id = 3;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT @msg;
++------+
+| @msg |
++------+
+|      |
++------+
+1 row in set (0.00 sec)
+
+mysql> 
