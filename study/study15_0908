@@ -1,0 +1,524 @@
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date;
+ERROR 1046 (3D000): No database selected
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| market_db          |
+| mysql              |
+| naver_db           |
+| netflix_db         |
+| performance_schema |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use market_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| GRL    | 소녀시대     | 2007-08-02 |
+| APN    | 에이핑크     | 2011-02-10 |
+| MMU    | 마마무       | 2014-06-19 |
+| RED    | 레드벨벳     | 2014-08-01 |
+| WMN    | 여자친구     | 2015-01-15 |
+| OMY    | 오마이걸     | 2015-04-21 |
+| TWC    | 트와이스     | 2015-10-19 |
+| SPC    | 우주소녀     | 2016-02-25 |
+| BLK    | 블랙핑크     | 2016-08-08 |
+| ITZ    | 잇지         | 2019-02-12 |
++--------+--------------+------------+
+10 rows in set (0.01 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date FROM member ORDER BY debut_date DESC;
++--------+--------------+------------+
+| mem_id | mem_name     | debut_date |
++--------+--------------+------------+
+| ITZ    | 잇지         | 2019-02-12 |
+| BLK    | 블랙핑크     | 2016-08-08 |
+| SPC    | 우주소녀     | 2016-02-25 |
+| TWC    | 트와이스     | 2015-10-19 |
+| OMY    | 오마이걸     | 2015-04-21 |
+| WMN    | 여자친구     | 2015-01-15 |
+| RED    | 레드벨벳     | 2014-08-01 |
+| MMU    | 마마무       | 2014-06-19 |
+| APN    | 에이핑크     | 2011-02-10 |
+| GRL    | 소녀시대     | 2007-08-02 |
++--------+--------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, mem_name, 
+    -> debut_date, height
+    -> WHERE height >= 164
+    -> ORDER BY height DESC;
+ERROR 1054 (42S22): Unknown column 'mem_id' in 'field list'
+mysql> SELECT mem_id, mem_name,  debut_date, height WHERE height >= 164 ORDER BY height DESC;
+ERROR 1054 (42S22): Unknown column 'mem_id' in 'field list'
+mysql> 
+mysql> 
+mysql> SELECT mem_id, mem_name, debut_date, height
+    -> FROM members
+    -> WHERE height >= 164
+    -> ORDER BY height DESC;
+ERROR 1146 (42S02): Table 'market_db.members' doesn't exist
+mysql> 
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| member              |
++---------------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT mem_id, mem_name, debut_date, height FROM member  WHERE height >= 164 ORDER BY height DESC;
++--------+--------------+------------+--------+
+| mem_id | mem_name     | debut_date | height |
++--------+--------------+------------+--------+
+| GRL    | 소녀시대     | 2007-08-02 |    168 |
+| ITZ    | 잇지         | 2019-02-12 |    167 |
+| TWC    | 트와이스     | 2015-10-19 |    167 |
+| WMN    | 여자친구     | 2015-01-15 |    166 |
+| MMU    | 마마무       | 2014-06-19 |    165 |
+| APN    | 에이핑크     | 2011-02-10 |    164 |
++--------+--------------+------------+--------+
+6 rows in set (0.01 sec)
+
+mysql> --height 먼저이기때문에 먼저 정렬;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '--height 먼저이기때문에 먼저 정렬' at line 1
+mysql> SELECT * FROM member LIMIT 3;
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+| APN    | 에이핑크     |          6 | 경기   | 031    | 77777777 |    164 | 2011-02-10 |
+| BLK    | 블랙핑크     |          4 | 경남   | 055    | 22222222 |    163 | 2016-08-08 |
+| GRL    | 소녀시대     |          8 | 서울   | 02     | 44444444 |    168 | 2007-08-02 |
++--------+--------------+------------+--------+--------+----------+--------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT mem_name, height, FROM member ORDER BY height DESC LIMIT 3, 2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'FROM member ORDER BY height DESC LIMIT 3, 2' at line 1
+mysql> 
+mysql> 
+mysql> SELECT mem_name, height  FROM member ORDER BY height DESC LIMIT 3, 2;
++--------------+--------+
+| mem_name     | height |
++--------------+--------+
+| 여자친구     |    166 |
+| 마마무       |    165 |
++--------------+--------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT addr FROM member;
++--------+
+| addr   |
++--------+
+| 경기   |
+| 경남   |
+| 서울   |
+| 전남   |
+| 경북   |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, amount FROM buy ORDER BY mem_id;
++--------+--------+
+| mem_id | amount |
++--------+--------+
+| APN    |      1 |
+| APN    |      2 |
+| APN    |      1 |
+| APN    |      1 |
+| BLK    |      2 |
+| BLK    |      1 |
+| BLK    |      3 |
+| GRL    |      5 |
+| MMU    |      5 |
+| MMU    |     10 |
+| MMU    |      1 |
+| MMU    |      4 |
++--------+--------+
+12 rows in set (0.00 sec)
+
+mysql> SELECT DISTICNT mem_id, amount FROM buy ORDER BY mem_id;
+ERROR 1054 (42S22): Unknown column 'DISTICNT' in 'field list'
+mysql> 
+mysql> 
+mysql> SELECT DISTINCT mem_id, amount
+    -> FROM buy
+    -> ORDER BY mem_id;
++--------+--------+
+| mem_id | amount |
++--------+--------+
+| APN    |      1 |
+| APN    |      2 |
+| BLK    |      1 |
+| BLK    |      2 |
+| BLK    |      3 |
+| GRL    |      5 |
+| MMU    |      1 |
+| MMU    |      4 |
+| MMU    |      5 |
+| MMU    |     10 |
++--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT DISTINCT(mem_id), amount FROM buy ORDER BY mem_id;
++--------+--------+
+| mem_id | amount |
++--------+--------+
+| APN    |      1 |
+| APN    |      2 |
+| BLK    |      1 |
+| BLK    |      2 |
+| BLK    |      3 |
+| GRL    |      5 |
+| MMU    |      1 |
+| MMU    |      4 |
+| MMU    |      5 |
+| MMU    |     10 |
++--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT count(mem_id), amount FROM buy ORDER BY mem_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'market_db.buy.amount'; this is incompatible with sql_mode=only_full_group_by
+mysql> SELECT count(mem_id), amount FROM buy ORDER BY mem_id;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #2 of SELECT list contains nonaggregated column 'market_db.buy.amount'; this is incompatible with sql_mode=only_full_group_by
+mysql> 
+mysql> SELECT mem_id, COUNT(mem_id) AS mem_id_count, SUM(amount) AS total_amount
+    -> FROM buy
+    -> GROUP BY mem_id
+    -> ORDER BY mem_id;
++--------+--------------+--------------+
+| mem_id | mem_id_count | total_amount |
++--------+--------------+--------------+
+| APN    |            4 |            5 |
+| BLK    |            3 |            6 |
+| GRL    |            1 |            5 |
+| MMU    |            4 |           20 |
++--------+--------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> 
+mysql> SELECT COUNT(mem_id) FROM member;
++---------------+
+| COUNT(mem_id) |
++---------------+
+|            10 |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT DISTINCT addr FROM member;
++--------+
+| addr   |
++--------+
+| 경기   |
+| 경남   |
+| 서울   |
+| 전남   |
+| 경북   |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT mem_id, SUM(price*amount)
+    -> FROM buy
+    -> GROUP BY mem_id
+    -> HAVING SUM(price*amount) > 1000;
++--------+-------------------+
+| mem_id | SUM(price*amount) |
++--------+-------------------+
+| BLK    |              1210 |
+| MMU    |              1950 |
++--------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, SUM(price*amount) FROM buy where sum(price*amount)> 1000 GROUP BY mem_id;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT mem_id, sum(price*amount)
+    -> FROM buy
+    -> GROUP By mem_id
+    -> HAVING SUM(price*amount)>1000
+    -> ORDER BY SUM(price*amount)DESC;
++--------+-------------------+
+| mem_id | sum(price*amount) |
++--------+-------------------+
+| MMU    |              1950 |
+| BLK    |              1210 |
++--------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT mem_id, sum(price*amount) FROM buy GROUP By mem_id HAVING SUM(price*amount)>1000;
++--------+-------------------+
+| mem_id | sum(price*amount) |
++--------+-------------------+
+| BLK    |              1210 |
+| MMU    |              1950 |
++--------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE TABLE hongong1 
+    -> (toy_id INT, toy_name CHAR(4), age INT);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO hongong1 VALUES(1, '우디', 25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hongong1(toy_name,age, toy_id) VALUES ('제시', 20, 3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM hongong1;
++--------+----------+------+
+| toy_id | toy_name | age  |
++--------+----------+------+
+|      1 | 우디     |   25 |
+|      3 | 제시     |   20 |
++--------+----------+------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO hongong1(toy_id, toy_name) VALUES (2, '버즈');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong1;
++--------+----------+------+
+| toy_id | toy_name | age  |
++--------+----------+------+
+|      1 | 우디     |   25 |
+|      3 | 제시     |   20 |
+|      2 | 버즈     | NULL |
++--------+----------+------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> CREATE TABLE hongong2 ( 
+    ->    toy_id  INT AUTO_INCREMENT PRIMARY KEY, 
+    ->    toy_name CHAR(4), 
+    ->    age INT);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO hongong2 VALUES (NULL, '보핍', 25);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO hongong2 VALUES (NULL, '슬링키', 22);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO hongong2 VALUES (NULL, '렉스', 21);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong2;
++--------+-----------+------+
+| toy_id | toy_name  | age  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
++--------+-----------+------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT LAST_INSERT_ID();
++------------------+
+| LAST_INSERT_ID() |
++------------------+
+|                3 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO hongong2 VALUES(null, 'ss', 22);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT LAST_INSERT_ID();
++------------------+
+| LAST_INSERT_ID() |
++------------------+
+|                4 |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> ALTER TABLE hongong2 AUTO_INCREMENT=100;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO hongong2 VALUES (NULL, '재남', 35);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM hongong2;
++--------+-----------+------+
+| toy_id | toy_name  | age  |
++--------+-----------+------+
+|      1 | 보핍      |   25 |
+|      2 | 슬링키    |   22 |
+|      3 | 렉스      |   21 |
+|      4 | ss        |   22 |
+|    100 | 재남      |   35 |
++--------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT LAST_INSERT_ID;
+ERROR 1054 (42S22): Unknown column 'LAST_INSERT_ID' in 'field list'
+mysql> 
+mysql> 
+mysql> SELECT LAST_INSERT_ID();
++------------------+
+| LAST_INSERT_ID() |
++------------------+
+|              100 |
++------------------+
+1 row in set (0.01 sec)
+
+mysql> DESC hongong2
+    -> ;
++----------+---------+------+-----+---------+----------------+
+| Field    | Type    | Null | Key | Default | Extra          |
++----------+---------+------+-----+---------+----------------+
+| toy_id   | int     | NO   | PRI | NULL    | auto_increment |
+| toy_name | char(4) | YES  |     | NULL    |                |
+| age      | int     | YES  |     | NULL    |                |
++----------+---------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| hongong1            |
+| hongong2            |
+| member              |
++---------------------+
+4 rows in set (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| market_db          |
+| mysql              |
+| naver_db           |
+| netflix_db         |
+| performance_schema |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.01 sec)
+
+mysql> use world
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables;
++-----------------+
+| Tables_in_world |
++-----------------+
+| city            |
+| city_popul      |
+| country         |
+| countrylanguage |
++-----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT count(*) from country
+    -> ;
++----------+
+| count(*) |
++----------+
+|      239 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> SELECT * FROM country limit 10;
++------+----------------------+---------------+---------------------------+-------------+-----------+------------+----------------+-----------+-----------+-------------------------------------+----------------------------------------------+-----------------------------+---------+-------+
+| Code | Name                 | Continent     | Region                    | SurfaceArea | IndepYear | Population | LifeExpectancy | GNP       | GNPOld    | LocalName                           | GovernmentForm                               | HeadOfState                 | Capital | Code2 |
++------+----------------------+---------------+---------------------------+-------------+-----------+------------+----------------+-----------+-----------+-------------------------------------+----------------------------------------------+-----------------------------+---------+-------+
+| ABW  | Aruba                | North America | Caribbean                 |      193.00 |      NULL |     103000 |           78.4 |    828.00 |    793.00 | Aruba                               | Nonmetropolitan Territory of The Netherlands | Beatrix                     |     129 | AW    |
+| AFG  | Afghanistan          | Asia          | Southern and Central Asia |   652090.00 |      1919 |   22720000 |           45.9 |   5976.00 |      NULL | Afganistan/Afqanestan               | Islamic Emirate                              | Mohammad Omar               |       1 | AF    |
+| AGO  | Angola               | Africa        | Central Africa            |  1246700.00 |      1975 |   12878000 |           38.3 |   6648.00 |   7984.00 | Angola                              | Republic                                     | José Eduardo dos Santos     |      56 | AO    |
+| AIA  | Anguilla             | North America | Caribbean                 |       96.00 |      NULL |       8000 |           76.1 |     63.20 |      NULL | Anguilla                            | Dependent Territory of the UK                | Elisabeth II                |      62 | AI    |
+| ALB  | Albania              | Europe        | Southern Europe           |    28748.00 |      1912 |    3401200 |           71.6 |   3205.00 |   2500.00 | Shqipëria                           | Republic                                     | Rexhep Mejdani              |      34 | AL    |
+| AND  | Andorra              | Europe        | Southern Europe           |      468.00 |      1278 |      78000 |           83.5 |   1630.00 |      NULL | Andorra                             | Parliamentary Coprincipality                 |                             |      55 | AD    |
+| ANT  | Netherlands Antilles | North America | Caribbean                 |      800.00 |      NULL |     217000 |           74.7 |   1941.00 |      NULL | Nederlandse Antillen                | Nonmetropolitan Territory of The Netherlands | Beatrix                     |      33 | AN    |
+| ARE  | United Arab Emirates | Asia          | Middle East               |    83600.00 |      1971 |    2441000 |           74.1 |  37966.00 |  36846.00 | Al-Imarat al-´Arabiya al-Muttahida  | Emirate Federation                           | Zayid bin Sultan al-Nahayan |      65 | AE    |
+| ARG  | Argentina            | South America | South America             |  2780400.00 |      1816 |   37032000 |           75.1 | 340238.00 | 323310.00 | Argentina                           | Federal Republic                             | Fernando de la Rúa          |      69 | AR    |
+| ARM  | Armenia              | Asia          | Middle East               |    29800.00 |      1991 |    3520000 |           66.4 |   1813.00 |   1627.00 | Hajastan                            | Republic                                     | Robert Kotšarjan            |     126 | AM    |
++------+----------------------+---------------+---------------------------+-------------+-----------+------------+----------------+-----------+-----------+-------------------------------------+----------------------------------------------+-----------------------------+---------+-------+
+10 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM city limit 10;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | Kabul          | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
+|  6 | Rotterdam      | NLD         | Zuid-Holland  |     593321 |
+|  7 | Haag           | NLD         | Zuid-Holland  |     440900 |
+|  8 | Utrecht        | NLD         | Utrecht       |     234323 |
+|  9 | Eindhoven      | NLD         | Noord-Brabant |     201843 |
+| 10 | Tilburg        | NLD         | Noord-Brabant |     193238 |
++----+----------------+-------------+---------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> UPDATE name
+    -> set name = 'kabul1'
+    -> where Name = kabul;
+ERROR 1146 (42S02): Table 'world.name' doesn't exist
+mysql> 
+mysql> 
+mysql> UPDATE name
+    -> SET name = 'kabul1'
+    -> WHERE name = 'kabul';
+ERROR 1146 (42S02): Table 'world.name' doesn't exist
+mysql> UPDATE name
+    -> SET name = 'kabul1'
+    -> WHERE name = 'kabul';
+ERROR 1146 (42S02): Table 'world.name' doesn't exist
+mysql> UPDATE city
+    -> set Name = 'kabul2'
+    -> WHERE Name = 'kabul';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM city limit 5
+    -> ;
++----+----------------+-------------+---------------+------------+
+| ID | Name           | CountryCode | District      | Population |
++----+----------------+-------------+---------------+------------+
+|  1 | kabul2         | AFG         | Kabol         |    1780000 |
+|  2 | Qandahar       | AFG         | Qandahar      |     237500 |
+|  3 | Herat          | AFG         | Herat         |     186800 |
+|  4 | Mazar-e-Sharif | AFG         | Balkh         |     127800 |
+|  5 | Amsterdam      | NLD         | Noord-Holland |     731200 |
++----+----------------+-------------+---------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> 
