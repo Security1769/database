@@ -1,0 +1,253 @@
+mysql> 
+mysql> 
+mysql> CREATE TABLE hongong4
+    -> (tinyint_col TINYINT
+    -> samllint_col SMALLINT,
+    -> int_col INT,
+    -> bigint_col BIGINT):
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'samllint_col SMALLINT,
+int_col INT,
+bigint_col BIGINT):' at line 3
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE TABLE hongong4 (
+    ->     tinyint_col  TINYINT,
+    ->     smallint_col SMALLINT,
+    ->     int_col    INT,
+    ->     bigint_col BIGINT );
+ERROR 1046 (3D000): No database selected
+mysql> use market_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> CREATE TABLE hongong4 (     tinyint_col  TINYINT,     smallint_col SMALLINT,     int_col    INT,     bigint_col BIGINT );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO hongong4 VALUES(127, 32767, 2147483647, 9000000000000000000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> 
+mysql> INSERT INTO hongong4 VALUES(128, 32768, 2147483648, 90000000000000000000);
+ERROR 1264 (22003): Out of range value for column 'tinyint_col' at row 1
+mysql> 
+mysql> 
+mysql> 
+mysql> CREATE TABLE member -- 회원 테이블
+    -> ( mem_id      CHAR(8) NOT NULL PRIMARY KEY, -- 회원 아이디(PK)
+    ->   mem_name        VARCHAR(10) NOT NULL, -- 이름
+    ->   mem_number    TINYINT  NOT NULL,  -- 인원수
+    ->   addr          CHAR(2) NOT NULL, -- 주소(경기,서울,경남 식으로 2글자만입력)
+    ->   phone1        CHAR(3), -- 연락처의 국번(02, 031, 055 등)
+    ->   phone2        CHAR(8), -- 연락처의 나머지 전화번호(하이픈제외)
+    ->   height        TINYINT UNSIGNED,  -- 평균 키
+    ->   debut_date    DATE  -- 데뷔 일자
+    -> );
+ERROR 1050 (42S01): Table 'member' already exists
+mysql> 
+mysql> 
+mysql> SET @myVar1 = 5;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @myVar2 = 4.25;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @myVar1 ;
++---------+
+| @myVar1 |
++---------+
+|       5 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT @myVar2;
++---------+
+| @myVar2 |
++---------+
+|    4.25 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> SELECT @myVar1 + @myVar2 ;
++----------------------------------+
+| @myVar1 + @myVar2                |
++----------------------------------+
+| 9.250000000000000000000000000000 |
++----------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SET @txt = "가수이름==>";
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SET @height = 166;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT @txt, mem_name FROM member WHERE hight > @hight;
+ERROR 1054 (42S22): Unknown column 'hight' in 'where clause'
+mysql> 
+mysql> 
+mysql> SELECT @txt , mem_name FROM member WHERE height > @height ;
++-----------------+--------------+
+| @txt            | mem_name     |
++-----------------+--------------+
+| 가수이름==>     | 소녀시대     |
+| 가수이름==>     | 잇지         |
+| 가수이름==>     | 트와이스     |
++-----------------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> SET @count = 3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> SELECT MEM_NAME, height FROM member ORDER by height LIMIT @count;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '@count' at line 1
+mysql> SELECT MEM_NAME, height FROM member ORDER by height LIMIT 3;
++--------------+--------+
+| MEM_NAME     | height |
++--------------+--------+
+| 오마이걸     |    160 |
+| 레드벨벳     |    161 |
+| 우주소녀     |    162 |
++--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SET @count = 3;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> PREPARE mySQL FROM 'SELECT mem_name, height FROM member ORDER BY height LIMIT ?';
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql> EXECUTE mySQL USING @count;
++--------------+--------+
+| mem_name     | height |
++--------------+--------+
+| 오마이걸     |    160 |
+| 레드벨벳     |    161 |
+| 우주소녀     |    162 |
++--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT CAST(AVG(price) AS SIGNED)'평균가격' FROM buy;
++--------------+
+| 평균가격     |
++--------------+
+|          143 |
++--------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT num, CONCAT(CAST(price AS CHAR),'x',CAST(amount AS CHAR), '=') '가격x수량', price*amount '구매액' FROM buy;
++-----+---------------+-----------+
+| num | 가격x수량     | 구매액    |
++-----+---------------+-----------+
+|   1 | 30x2=         |        60 |
+|   2 | 1000x1=       |      1000 |
+|   3 | 200x1=        |       200 |
+|   4 | 200x5=        |      1000 |
+|   5 | 50x3=         |       150 |
+|   6 | 80x10=        |       800 |
+|   7 | 15x5=         |        75 |
+|   8 | 15x2=         |        30 |
+|   9 | 50x1=         |        50 |
+|  10 | 30x1=         |        30 |
+|  11 | 15x1=         |        15 |
+|  12 | 30x4=         |       120 |
++-----+---------------+-----------+
+12 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT CAST('2022$12$12' AS DATE);
++----------------------------+
+| CAST('2022$12$12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT CAST('2022/12/12' AS DATE);
++----------------------------+
+| CAST('2022/12/12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT CAST('2022%12%12' AS DATE);
++----------------------------+
+| CAST('2022%12%12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> SELECT CAST('2022@12@12' AS DATE);
++----------------------------+
+| CAST('2022@12@12' AS DATE) |
++----------------------------+
+| 2022-12-12                 |
++----------------------------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> SELECT '100' + '200' ; -- 문자와 문자를 더함 (정수로 변환되서 연산됨)
++---------------+
+| '100' + '200' |
++---------------+
+|           300 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT('100', '200'); -- 문자와 문자를 연결 (문자로 처리)
++----------------------+
+| CONCAT('100', '200') |
++----------------------+
+| 100200               |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT CONCAT(100, '200'); -- 정수와 문자를 연결 (정수가 문자로 변환되서 처리)
++--------------------+
+| CONCAT(100, '200') |
++--------------------+
+| 100200             |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 1 > '2mega'; -- 정수인 2로 변환되어서 비교
++-------------+
+| 1 > '2mega' |
++-------------+
+|           0 |
++-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT 3 > '2MEGA'; -- 정수인 2로 변환되어서 비교
++-------------+
+| 3 > '2MEGA' |
++-------------+
+|           1 |
++-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SELECT 0 = 'mega2'; -- 문자는 0으로 변환됨
++-------------+
+| 0 = 'mega2' |
++-------------+
+|           1 |
++-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> 
