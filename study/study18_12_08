@@ -1,0 +1,239 @@
+mysql> 
+mysql> 
+mysql> use market_db
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> 
+mysql> 
+mysql> SELECT * FROm buy
+    -> INNER JOIN member
+    -> on buy.mem_id = member.mem_id
+    -> WHERE buy.mem_id = "GRL";
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+| num | mem_id | prod_name | group_name | price | amount | mem_id | mem_name     | mem_number | addr   | phone1 | phone2   | height | debut_date |
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+|   7 | GRL    | 혼공SQL   | 서적       |    15 |      5 | GRL    | 소녀시대     |          8 | 서울   | 02     | 44444444 |    168 | 2007-08-02 |
++-----+--------+-----------+------------+-------+--------+--------+--------------+------------+--------+--------+----------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DELIMITER $$
+mysql> ;
+    -> 
+    -> 
+    -> ;/
+    -> 
+    -> 
+    -> DELIMITEr;
+    -> ;
+    -> call 
+    -> ;
+    -> DROP PROCEDURE IF EXISTS ifProc1; -- 기존에 만든적이 있다면 삭제
+    -> DELIMITER $$
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ';
+
+
+;/
+
+
+DELIMITEr;;
+call 
+;
+DROP PROCEDURE IF EXISTS ifProc1; 
+DELIMITER' at line 1
+mysql> CREATE PROCEDURE ifProc1()
+    -> BEGIN
+    ->    IF 100 = 100 THEN  
+    ->       SELECT '100은 100과 같습니다.';
+    ->    END IF;
+    -> END $$
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DELIMITER ;
+mysql> CALL ifProc1();
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+| 100은 100과 같습니다.       |
++-----------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS ifProc2; 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE ifProc2()
+    -> BEGIN
+    ->    DECLARE myNum INT;  -- myNum 변수선언
+    ->    SET myNum = 200;  -- 변수에 값 대입
+    ->    IF myNum = 100 THEN  
+    ->       SELECT '100입니다.';
+    ->    ELSE
+    ->       SELECT '100이 아닙니다.';
+    ->    END IF;
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> CALL ifProc2();
++----------------------+
+| 100이 아닙니다.      |
++----------------------+
+| 100이 아닙니다.      |
++----------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS ifProc3; 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE ifProc3()
+    -> BEGIN
+    ->     DECLARE debutDate DATE; -- 데뷰일
+    ->     DECLARE curDate DATE; -- 오늘
+    ->     DECLARE days INT; -- 활동한 일수
+    -> 
+    ->     SELECT debut_date INTO debutDate -- debut_date 결과를 hireDATE에 대입
+    ->        FROM market_db.member
+    ->        WHERE mem_id = 'APN';
+    -> 
+    ->     SET curDATE = CURRENT_DATE(); -- 현재 날짜
+    ->     SET days =  DATEDIFF(curDATE, debutDate); -- 날짜의 차이, 일 단위
+    -> 
+    ->     IF (days/365) >= 5 THEN -- 5년이 지났다면
+    ->           SELECT CONCAT('데뷔한지 ', days, '일이나 지났습니다. 핑순이들 축하합니다!');
+    ->     ELSE
+    ->           SELECT '데뷔한지 ' + days + '일밖에 안되었네요. 핑순이들 화이팅~' ;
+    ->     END IF;
+    -> END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DELIMITER ;
+mysql> CALL ifProc3();
++-------------------------------------------------------------------------------------------+
+| CONCAT('데뷔한지 ', days, '일이나 지났습니다. 핑순이들 축하합니다!')                      |
++-------------------------------------------------------------------------------------------+
+| 데뷔한지 4566일이나 지났습니다. 핑순이들 축하합니다!                                      |
++-------------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS caseProc; 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE caseProc()
+    -> BEGIN
+    ->     DECLARE point INT ;
+    ->     DECLARE credit CHAR(1);
+    ->     SET point = 88 ;
+    ->     
+    ->     CASE 
+    ->         WHEN point >= 90 THEN
+    ->             SET credit = 'A';
+    ->         WHEN point >= 80 THEN
+    ->             SET credit = 'B';
+    ->         WHEN point >= 70 THEN
+    ->             SET credit = 'C';
+    ->         WHEN point >= 60 THEN
+    ->             SET credit = 'D';
+    ->         ELSE
+    ->             SET credit = 'F';
+    ->     END CASE;
+    ->     SELECT CONCAT('취득점수==>', point), CONCAT('학점==>', credit);
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> CALL caseProc();
++----------------------------------+-----------------------------+
+| CONCAT('취득점수==>', point)     | CONCAT('학점==>', credit)   |
++----------------------------------+-----------------------------+
+| 취득점수==>88                    | 학점==>B                    |
++----------------------------------+-----------------------------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> DROP PROCEDURE IF EXISTS whileProc; 
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE whileProc()
+    -> BEGIN
+    ->     DECLARE i INT; -- 1에서 100까지 증가할 변수
+    ->     DECLARE hap INT; -- 더한 값을 누적할 변수
+    ->     SET i = 1;
+    ->     SET hap = 0;
+    -> 
+    ->     WHILE (i <= 100) DO
+    ->         SET hap = hap + i;  -- hap의 원래의 값에 i를 더해서 다시 hap에 넣으라는 의미
+    ->         SET i = i + 1;      -- i의 원래의 값에 1을 더해서 다시 i에 넣으라는 의미
+    ->     END WHILE;
+    -> 
+    ->     SELECT '1부터 100까지의 합 ==>', hap;   
+    -> END $$
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> DELIMITER ;
+mysql> CALL whileProc();
++------------------------------+------+
+| 1부터 100까지의 합 ==>       | hap  |
++------------------------------+------+
+| 1부터 100까지의 합 ==>       | 5050 |
++------------------------------+------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS gate_table;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> CREATE TABLE gate_table (id INT AUTO_INCREMENT PRIMARY KEY, entry_time DATETIME);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> SET @curDate = CURRENT_TIMESTAMP(); -- 현재 날짜와 시간
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> PREPARE myQuery FROM 'INSERT INTO gate_table VALUES(NULL, ?)';
+Query OK, 0 rows affected (0.00 sec)
+Statement prepared
+
+mysql> EXECUTE myQuery USING @curDate;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> DEALLOCATE PREPARE myQuery;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> SELECT * FROM gate_table;
++----+---------------------+
+| id | entry_time          |
++----+---------------------+
+|  1 | 2023-08-12 16:53:04 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> 
