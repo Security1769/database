@@ -1,0 +1,304 @@
+mysql> show tables;
++---------------------+
+| Tables_in_market_db |
++---------------------+
+| buy                 |
+| emp_table           |
+| gate_table          |
+| hongong1            |
+| hongong2            |
+| hongong4            |
+| member              |
++---------------------+
+7 rows in set (0.00 sec)
+
+mysql> DESC member;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| mem_id     | char(8)     | NO   | PRI | NULL    |       |
+| mem_name   | varchar(10) | NO   |     | NULL    |       |
+| mem_number | int         | NO   |     | NULL    |       |
+| addr       | char(2)     | NO   |     | NULL    |       |
+| phone1     | char(3)     | YES  |     | NULL    |       |
+| phone2     | char(8)     | YES  |     | NULL    |       |
+| height     | smallint    | YES  |     | NULL    |       |
+| debut_date | date        | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+
+mysql> DROP TABLE IF EXISTS buy, memver;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> DROP TABLE IF EXISTS buy, member;
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> CREATE TABLE member
+    -> (mem_id char(8) not null primary key,
+    -> mem_name varchar(10) not null,
+    -> height tiny unsigned null
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tiny unsigned null
+)' at line 4
+mysql> 
+mysql> 
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> DESCRIBE member;
++----------+------------------+------+-----+---------+-------+
+| Field    | Type             | Null | Key | Default | Extra |
++----------+------------------+------+-----+---------+-------+
+| mem_id   | char(8)          | NO   | PRI | NULL    |       |
+| mem_name | varchar(10)      | NO   |     | NULL    |       |
+| height   | tinyint unsigned | YES  |     | NULL    |       |
++----------+------------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   PRIMARY KEY (mem_id)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> ALTER TABLE member
+    ->      ADD CONSTRAINT 
+    ->      PRIMARY KEY (mem_id);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   CONSTRAINT PRIMARY KEY PK_member_mem_id (mem_id)
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS buy, member;
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE buy 
+    -> (  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ->    user_id      CHAR(8) NOT NULL, 
+    ->    prod_name     CHAR(6) NOT NULL, 
+    ->    FOREIGN KEY(user_id) REFERENCES member(mem_id)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS buy;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE buy 
+    -> (  num         INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    ->    mem_id      CHAR(8) NOT NULL, 
+    ->    prod_name     CHAR(6) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> ALTER TABLE buy
+    ->     ADD CONSTRAINT 
+    ->     FOREIGN KEY(mem_id) REFERENCES member(mem_id);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '지갑');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO buy VALUES(NULL, 'BLK', '맥북');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name 
+    ->    FROM buy B
+    ->       INNER JOIN member M
+    ->       ON B.mem_id = M.mem_id;
++--------+--------------+-----------+
+| mem_id | mem_name     | prod_name |
++--------+--------------+-----------+
+| BLK    | 블랙핑크     | 지갑      |
+| BLK    | 블랙핑크     | 맥북      |
++--------+--------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> UPDATE member SET mem_id = 'PINK' WHERE mem_id='BLK';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`market_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> 
+mysql> 
+mysql> UPDATE member SET mem_id = 'PINK' WHERE mem_id='BLK';
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`market_db`.`buy`, CONSTRAINT `buy_ibfk_1` FOREIGN KEY (`mem_id`) REFERENCES `member` (`mem_id`))
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT M.mem_id, M.mem_name, B.prod_name 
+    ->    FROM buy B
+    ->       INNER JOIN member M
+    ->       ON B.mem_id = M.mem_id;
++--------+--------------+-----------+
+| mem_id | mem_name     | prod_name |
++--------+--------------+-----------+
+| BLK    | 블랙핑크     | 지갑      |
+| BLK    | 블랙핑크     | 맥북      |
++--------+--------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> DELETE FROM member WHERE  mem_id='PINK';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> 
+mysql> SELECT * FROM buy;
++-----+--------+-----------+
+| num | mem_id | prod_name |
++-----+--------+-----------+
+|   1 | BLK    | 지갑      |
+|   2 | BLK    | 맥북      |
++-----+--------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> DROP TABLE IF EXISTS buy, member;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL,
+    ->   email       CHAR(30)  NULL UNIQUE
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163, 'pink@gmail.com');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 167, NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO member VALUES('APN', '에이핑크', 164, 'pink@gmail.com');
+ERROR 1062 (23000): Duplicate entry 'pink@gmail.com' for key 'member.email'
+mysql> SELECT * FROM member;
++--------+--------------+--------+----------------+
+| mem_id | mem_name     | height | email          |
++--------+--------------+--------+----------------+
+| BLK    | 블랙핑크     |    163 | pink@gmail.com |
+| TWC    | 트와이스     |    167 | NULL           |
++--------+--------------+--------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL CHECK (height >= 100),
+    ->   phone1      CHAR(3)  NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> INSERT INTO member VALUES('BLK', '블랙핑크', 163, NULL);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 99, NULL);
+ERROR 3819 (HY000): Check constraint 'member_chk_1' is violated.
+mysql> 
+mysql> 
+mysql> 
+mysql> ALTER TABLE member
+    ->     ADD CONSTRAINT 
+    ->     CHECK  (phone1 IN ('02', '031', '032', '054', '055', '061' )) ;
+Query OK, 1 row affected (0.03 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO member VALUES('TWC', '트와이스', 167, '02');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('OMY', '오마이걸', 167, '010');
+ERROR 3819 (HY000): Check constraint 'member_chk_2' is violated.
+mysql> 
+mysql> 
+mysql> DROP TABLE IF EXISTS member;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE member 
+    -> ( mem_id  CHAR(8) NOT NULL PRIMARY KEY, 
+    ->   mem_name    VARCHAR(10) NOT NULL, 
+    ->   height      TINYINT UNSIGNED NULL DEFAULT 160,
+    ->   phone1      CHAR(3)  NULL
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> ALTER TABLE member
+    ->     ALTER COLUMN phone1 SET DEFAULT '02';
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO member VALUES('RED', '레드벨벳', 161, '054');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO member VALUES('SPC', '우주소녀', default, default);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM member;
++--------+--------------+--------+--------+
+| mem_id | mem_name     | height | phone1 |
++--------+--------------+--------+--------+
+| RED    | 레드벨벳     |    161 | 054    |
+| SPC    | 우주소녀     |    160 | 02     |
++--------+--------------+--------+--------+
+2 rows in set (0.01 sec)
+
+mysql> 
